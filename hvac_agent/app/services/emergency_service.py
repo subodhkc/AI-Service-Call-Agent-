@@ -119,6 +119,7 @@ def classify_emergency_severity(emergency_type: str) -> str:
 def get_emergency_response(emergency_type: str) -> str:
     """
     Get appropriate emergency response message.
+    Dispatcher style - calm authority, direct action.
     
     Args:
         emergency_type: Type of emergency
@@ -128,46 +129,37 @@ def get_emergency_response(emergency_type: str) -> str:
     """
     responses = {
         "gas_leak": (
-            "I understand you may have a gas leak. This is very serious. "
-            "Please leave your home immediately and call 911 or your gas company. "
-            "Do not use any electrical switches or open flames. "
-            "I'm transferring you to our emergency line now."
+            "Gas leak. Get everyone out now. Don't touch any switches. "
+            "Call 911 from outside. Transferring you to emergency."
         ),
         "carbon_monoxide": (
-            "Carbon monoxide is extremely dangerous. Please leave your home immediately "
-            "and get to fresh air. Call 911 if anyone is feeling ill. "
-            "I'm connecting you to our emergency team right away."
+            "CO is serious. Get everyone outside to fresh air. "
+            "Call 911 if anyone's sick. Connecting you to emergency now."
         ),
         "no_heat_extreme": (
-            "I understand you have no heat and this is an emergency situation. "
-            "Please bundle up and use safe heating alternatives if available. "
-            "I'm marking this as a priority emergency and connecting you to our "
-            "on-call technician immediately."
+            "I understand. Bundle up. We're getting someone out there. "
+            "This is priority. Connecting you to on-call tech."
         ),
         "no_ac_extreme": (
-            "I understand the heat situation is dangerous. Please stay hydrated "
-            "and try to stay in the coolest area of your home. "
-            "I'm escalating this as an emergency and connecting you to our team now."
+            "Understood. Stay hydrated. Find the coolest spot. "
+            "We're escalating this. Getting our team on it now."
         ),
         "electrical": (
-            "If you see sparks, smoke, or fire, please leave the area immediately "
-            "and call 911. Do not touch the HVAC unit. "
-            "I'm transferring you to our emergency line."
+            "If there's sparks or smoke, get away from the unit. Call 911. "
+            "Don't touch anything. Transferring to emergency."
         ),
         "flooding": (
-            "If there's significant water, please turn off your main water supply if safe. "
-            "Avoid electrical outlets near water. "
-            "I'm connecting you to our emergency response team."
+            "Turn off main water if safe. Stay away from outlets. "
+            "Connecting you to emergency team."
         ),
         "general_urgent": (
-            "I can hear this is urgent. Let me connect you with a live representative "
-            "who can help you immediately."
+            "Understood. This is urgent. Transferring you now."
         ),
     }
     
     return responses.get(
         emergency_type,
-        "I understand this is an emergency. I'm connecting you to our emergency team right away."
+        "Understood. This is an emergency. Transferring you now."
     )
 
 

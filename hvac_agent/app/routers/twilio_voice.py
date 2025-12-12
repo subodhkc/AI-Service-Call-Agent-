@@ -9,9 +9,12 @@ Handles:
 - Emergency routing
 """
 
+import asyncio
+import random
 from typing import Optional
+from concurrent.futures import ThreadPoolExecutor
 
-from fastapi import APIRouter, Form, Depends, Request
+from fastapi import APIRouter, Form, Depends, Request, BackgroundTasks
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
@@ -21,9 +24,54 @@ from app.services.emergency_service import detect_emergency, get_emergency_conta
 from app.utils.logging import get_logger, log_call_event
 from app.utils.voice_config import get_voice_config, VoiceTone
 from app.utils.error_handler import handle_error, get_user_friendly_error
+from app.utils.latency_helpers import detect_booking_intent
+from app.utils.texas_persona import (
+    get_greeting,
+    get_goodbye,
+    get_quick_response_texas,
+    get_clarification,
+    get_empathy_response,
+    personalize_response,
+)
+from app.utils.human_tricks import (
+    get_micro_ack,
+    get_thinking_filler,
+    get_silence_response,
+    get_human_exit,
+    humanize_response,
+    should_confirm_intent,
+    get_personality,
+    cleanup_personality,
+)
+from app.utils.call_control import (
+    is_speech_too_long,
+    is_multi_topic,
+    get_interruption_response,
+    shorten_response,
+    remove_follow_up_questions,
+    BookingStage,
+)
 
 router = APIRouter(tags=["twilio-voice"])
 logger = get_logger("twilio.voice")
+
+# Thread pool for running agent in background
+_executor = ThreadPoolExecutor(max_workers=10)
+
+# Dispatcher-style filler phrases - calm, professional
+FILLER_PHRASES = [
+    "One moment.",
+    "Let me check.",
+    "Checking now.",
+    "One second.",
+]
+
+# Booking-oriented fillers - dispatcher style
+BOOKING_FILLERS = [
+    "Checking the schedule.",
+    "Let me see what's available.",
+    "One moment.",
+]
 
 # Voice configuration
 DEFAULT_VOICE = get_voice_config(VoiceTone.FRIENDLY)
@@ -46,7 +94,9 @@ def _twiml_say_and_gather(
     message: str,
     voice: str = "Polly.Joanna",
     hints: Optional[str] = None,
-    timeout: int = 3,
+    timeout: int = 4,
+    speech_timeout: str = "auto",
+    barge_in: bool = True,
 ) -> str:
     """
     Generate TwiML for saying a message and gathering speech input.
@@ -55,34 +105,38 @@ def _twiml_say_and_gather(
         message: Message to speak
         voice: Twilio voice to use
         hints: Speech recognition hints
-        timeout: Speech timeout in seconds
+        timeout: Silence timeout in seconds before giving up
+        speech_timeout: Speech timeout ("auto" recommended)
+        barge_in: Allow caller to interrupt agent speech
         
     Returns:
         TwiML XML string
     """
     message = _escape_xml(message)
     hints_attr = f'hints="{hints}"' if hints else ""
+    barge_in_attr = "true" if barge_in else "false"
     
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say voice="{voice}">{message}</Say>
     <Gather input="speech"
-            speechTimeout="auto"
+            speechTimeout="{speech_timeout}"
             timeout="{timeout}"
             action="/twilio/voice"
             method="POST"
+            bargeIn="{barge_in_attr}"
             {hints_attr}>
-        <Say voice="{voice}">
-            I'm listening.
-        </Say>
+        <Say voice="{voice}">{message}</Say>
     </Gather>
-    <Say voice="{voice}">I didn't hear anything. Let me know if you need help.</Say>
+    <Say voice="{voice}">I'm here.</Say>
     <Gather input="speech"
             speechTimeout="auto"
-            timeout="{timeout}"
+            timeout="5"
             action="/twilio/voice"
-            method="POST">
+            method="POST"
+            bargeIn="true">
     </Gather>
+    <Say voice="{voice}">I'll disconnect now.</Say>
+    <Hangup/>
 </Response>
 """.strip()
 
@@ -135,12 +189,12 @@ def _twiml_transfer(
 
 
 def _twiml_error(voice: str = "Polly.Joanna") -> str:
-    """Generate TwiML for error scenario."""
+    """Generate TwiML for error scenario - dispatcher style."""
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Say voice="{voice}">I'm sorry, I'm having technical difficulties. Please try calling back in a few minutes, or press zero to speak with a representative.</Say>
+    <Say voice="{voice}">Technical issue. Try again or press zero for a representative.</Say>
     <Gather input="dtmf" numDigits="1" action="/twilio/voice" method="POST">
-        <Say voice="{voice}">Press zero for a representative.</Say>
+        <Say voice="{voice}">Press zero.</Say>
     </Gather>
     <Hangup/>
 </Response>
@@ -188,17 +242,14 @@ async def twilio_voice(
         if SpeechResult is None:
             log_call_event(logger, "CALL_STARTED", CallSid, caller=From, called=To)
             
-            welcome = (
-                "Thank you for calling KC Comfort Air. "
-                "I'm your virtual assistant and I'm here to help you with scheduling, "
-                "rescheduling, or any HVAC questions you might have. "
-                "How can I assist you today?"
-            )
+            # Warm Texas greeting
+            welcome = get_greeting(state.name)
             
             xml = _twiml_say_and_gather(
                 welcome,
                 voice=voice,
-                hints="schedule, appointment, AC, heating, repair, maintenance, reschedule, cancel",
+                hints="schedule, appointment, AC, heating, repair, maintenance, reschedule, cancel, yes, no",
+                timeout=5,
             )
             return Response(content=xml, media_type="application/xml")
         
@@ -208,7 +259,7 @@ async def twilio_voice(
         
         if not user_text:
             xml = _twiml_say_and_gather(
-                "I didn't catch that. Could you please repeat what you said?",
+                get_clarification(),
                 voice=voice,
             )
             return Response(content=xml, media_type="application/xml")
@@ -220,12 +271,11 @@ async def twilio_voice(
         ]
         if user_text.lower().strip() in goodbye_phrases:
             log_call_event(logger, "CALL_ENDED", CallSid, reason="user_goodbye")
-            farewell = (
-                "Thank you for calling KC Comfort Air. "
-                "Have a great day, and stay comfortable!"
-            )
+            # Human-like exit - never abrupt
+            farewell = get_human_exit(state.name)
             xml = _twiml_goodbye(farewell, voice=voice)
             call_state_store.delete(CallSid)
+            cleanup_personality(CallSid)  # Clean up human tricks state
             return Response(content=xml, media_type="application/xml")
         
         # Check for emergency before running agent
@@ -238,32 +288,87 @@ async def twilio_voice(
             state.set_emergency(emergency_type)
             emergency_contact = get_emergency_contact(db, state.location_code)
             
-            # Use urgent voice for emergencies
+            # Use urgent voice for emergencies - dispatcher style
             xml = _twiml_transfer(
-                f"I understand this is an emergency. I'm connecting you to our emergency line immediately. Please stay on the line.",
+                "Understood. This is an emergency. Transferring you now.",
                 emergency_contact["phone"],
                 voice=EMERGENCY_VOICE.voice,
             )
             return Response(content=xml, media_type="application/xml")
         
-        # Run the agent
-        reply = run_agent(
-            user_text=user_text,
-            state=state,
-            db=db,
-            call_sid=CallSid,
-            caller_phone=From,
-        )
+        # CALL CONTROL: Detect long speech or multi-topic rambling
+        if is_speech_too_long(user_text, max_words=30) or is_multi_topic(user_text):
+            log_call_event(logger, "LONG_SPEECH_INTERRUPT", CallSid, words=len(user_text.split()))
+            # Polite interruption - acknowledge and redirect
+            # Determine current booking stage from state
+            if not state.issue:
+                stage = BookingStage.ISSUE
+            elif not state.location_code:
+                stage = BookingStage.CITY
+            elif not state.appointment_time:
+                stage = BookingStage.TIME
+            elif not state.name:
+                stage = BookingStage.NAME
+            else:
+                stage = BookingStage.CONFIRM
+            
+            interrupt_response = get_interruption_response(stage)
+            xml = _twiml_say_and_gather(interrupt_response, voice=voice)
+            return Response(content=xml, media_type="application/xml")
+        
+        # Try Texas-style quick response first (no AI needed) - instant reply
+        quick_reply = get_quick_response_texas(user_text, state.name)
+        if quick_reply:
+            log_call_event(logger, "QUICK_RESPONSE", CallSid)
+            xml = _twiml_say_and_gather(quick_reply, voice=voice)
+            return Response(content=xml, media_type="application/xml")
+        
+        # Detect intent for smart filler selection
+        is_booking_intent = detect_booking_intent(user_text)
+        
+        # Run agent with timeout protection
+        try:
+            loop = asyncio.get_event_loop()
+            reply = await asyncio.wait_for(
+                loop.run_in_executor(
+                    _executor,
+                    lambda: run_agent(
+                        user_text=user_text,
+                        state=state,
+                        db=db,
+                        call_sid=CallSid,
+                        caller_phone=From,
+                    )
+                ),
+                timeout=4.0  # Hard 4s timeout
+            )
+        except asyncio.TimeoutError:
+            logger.warning("Agent timeout for call %s", CallSid)
+            reply = "One moment. Say that again."
         
         log_call_event(logger, "AGENT_REPLY", CallSid, reply=reply[:100])
         
+        # CALL CONTROL: Shorten response to one sentence, remove follow-up questions
+        reply = shorten_response(reply, max_sentences=2)
+        reply = remove_follow_up_questions(reply)
+        
+        # Apply all humanization tricks
+        is_booking = state.has_appointment and state.last_intent == "booking"
+        reply = humanize_response(
+            response=reply,
+            call_sid=CallSid,
+            caller_name=state.name,
+            last_topic=state.issue,
+            is_booking_confirmation=is_booking,
+        )
+        
+        # Personalize the response with dispatcher style
+        reply = personalize_response(reply, state.name)
+        
         # Check if booking was completed
-        if state.has_appointment and state.last_intent == "booking":
+        if is_booking:
             log_call_event(logger, "BOOKING_COMPLETED", CallSid)
-            closing = (
-                f"{reply} "
-                "Is there anything else I can help you with today?"
-            )
+            closing = f"{reply} Anything else?"
             xml = _twiml_say_and_gather(closing, voice=voice)
             return Response(content=xml, media_type="application/xml")
         

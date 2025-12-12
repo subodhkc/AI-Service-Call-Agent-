@@ -136,9 +136,21 @@ scratch/
 notes/
 TODO.md
 NOTES.md
+progress.txt
 
 # ===========================================
 # Reference/Documentation files (local only)
 # ===========================================
 new 1.md
 reference/
+docs/
+*.md
+!README.md
+
+# ===========================================
+# Local notes and documentation
+# ===========================================
+*.txt
+!requirements.txt
+personal_notes/
+dev_notes/

@@ -29,11 +29,12 @@ class TwilioVoice(Enum):
     MATTHEW = "Polly.Matthew"  # US English, Male, Neural
     SALLI = "Polly.Salli"  # US English, Female
     JOEY = "Polly.Joey"  # US English, Male
-    KENDRA = "Polly.Kendra"  # US English, Female
+    KENDRA = "Polly.Kendra"  # US English, Female - WARMER, more Southern
     KIMBERLY = "Polly.Kimberly"  # US English, Female
     IVY = "Polly.Ivy"  # US English, Female (Child)
     RUTH = "Polly.Ruth"  # US English, Female, Neural
     STEPHEN = "Polly.Stephen"  # US English, Male, Neural
+    # Recommended for Texas persona: Kendra or Salli (warmer tones)
 
 
 @dataclass
@@ -87,24 +88,24 @@ class VoiceConfig:
         return ssml
 
 
-# Tone-specific configurations
+# Tone-specific configurations - Using Kendra for warmer Texas feel
 TONE_CONFIGS = {
     VoiceTone.PROFESSIONAL: VoiceConfig(
-        voice="Polly.Joanna",
+        voice="Polly.Kendra",  # Warmer than Joanna
         tone=VoiceTone.PROFESSIONAL,
         speaking_rate="medium",
         pitch="medium",
         pause_between_sentences=250,
     ),
     VoiceTone.FRIENDLY: VoiceConfig(
-        voice="Polly.Joanna",
+        voice="Polly.Kendra",  # Texas-friendly voice
         tone=VoiceTone.FRIENDLY,
         speaking_rate="medium",
         pitch="medium",
         pause_between_sentences=300,
     ),
     VoiceTone.EMPATHETIC: VoiceConfig(
-        voice="Polly.Joanna",
+        voice="Polly.Kendra",  # Warm and caring
         tone=VoiceTone.EMPATHETIC,
         speaking_rate="slow",
         pitch="low",
@@ -112,14 +113,14 @@ TONE_CONFIGS = {
         soft_mode=True,
     ),
     VoiceTone.URGENT: VoiceConfig(
-        voice="Polly.Matthew",
+        voice="Polly.Matthew",  # Male voice for urgency contrast
         tone=VoiceTone.URGENT,
         speaking_rate="fast",
         pitch="high",
         pause_between_sentences=200,
     ),
     VoiceTone.CALM: VoiceConfig(
-        voice="Polly.Joanna",
+        voice="Polly.Kendra",
         tone=VoiceTone.CALM,
         speaking_rate="slow",
         pitch="low",
@@ -153,40 +154,36 @@ def get_voice_config(tone: Optional[VoiceTone] = None) -> VoiceConfig:
 def get_empathetic_phrases() -> dict:
     """
     Get empathetic phrases for different situations.
+    Dispatcher style - calm acknowledgment, then move forward.
     
     Returns:
         Dictionary of situation-specific empathetic phrases
     """
     return {
         "frustration": [
-            "I completely understand how frustrating this must be.",
-            "I'm sorry you're dealing with this issue.",
-            "I can hear this has been difficult, and I want to help.",
+            "I understand.",
+            "Okay. I understand.",
+            "I hear you. Let's get this handled.",
         ],
         "emergency": [
-            "I understand this is urgent, and I'm here to help.",
-            "Your safety is our top priority.",
-            "Let me get you help right away.",
+            "Understood. Transferring you now.",
+            "This is priority. Getting you help.",
         ],
         "confusion": [
-            "No problem at all, let me explain that more clearly.",
-            "That's a great question, let me help clarify.",
-            "I'm happy to walk you through this step by step.",
+            "Let me clarify.",
+            "Here's how it works.",
         ],
         "gratitude": [
-            "You're very welcome!",
-            "I'm glad I could help.",
-            "It's my pleasure to assist you.",
+            "Anything else.",
+            "Alright. Anything else.",
         ],
         "apology": [
-            "I sincerely apologize for any inconvenience.",
-            "I'm sorry to hear about this experience.",
-            "We appreciate your patience.",
+            "I understand. Let me fix that.",
+            "Understood. We'll take care of it.",
         ],
         "wait": [
-            "Thank you for your patience.",
-            "I appreciate you holding on.",
-            "Just one moment while I check on that for you.",
+            "One moment.",
+            "Checking.",
         ],
     }
 

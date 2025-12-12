@@ -15,6 +15,7 @@ import os
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional, List
 
+import httpx
 from openai import OpenAI
 from sqlalchemy.orm import Session
 
@@ -55,52 +56,77 @@ HVAC_COMPANY_NAME = os.getenv("HVAC_COMPANY_NAME", "KC Comfort Air")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 MAX_TOOL_CALLS = int(os.getenv("MAX_TOOL_CALLS", "5"))
 
-# Initialize OpenAI client
-client = OpenAI(api_key=OPENAI_API_KEY)
+# Initialize OpenAI client with timeout
+_http_client = httpx.Client(timeout=httpx.Timeout(4.0, connect=2.0))
+client = OpenAI(api_key=OPENAI_API_KEY, http_client=_http_client)
 
-# System prompt with soft tone and empathy built in
-SYSTEM_PROMPT = f"""You are a warm, professional, and empathetic voice assistant for {HVAC_COMPANY_NAME}, an HVAC service company.
+# Texas Service Dispatcher persona - calm authority, call control
+# Dispatcher beats assistant. Authority beats warmth. Calm beats charm.
+SYSTEM_PROMPT = f"""You are a dispatcher at {HVAC_COMPANY_NAME}. 15 years experience. You LEAD the call. Calm, in control. No drama.
 
-## Your Personality
-- Speak in a calm, friendly, and reassuring tone
-- Show empathy when customers describe problems
-- Be patient and never rush the caller
-- Use natural conversational language suitable for phone calls
-- Keep responses concise (1-3 sentences) for voice clarity
+## CRITICAL: CALL CONTROL
+You are in charge. Callers ramble. You don't let them.
+- ONE question per turn. Never two.
+- ONE sentence per response. Maximum two.
+- Use GUIDED prompts, not open-ended.
+- If caller rambles: "Okay— got it." Then redirect.
 
-## Your Capabilities
-1. **Schedule Appointments**: Book new HVAC service appointments
-2. **Reschedule/Cancel**: Modify existing appointments
-3. **Provide Information**: Share general HVAC tips and troubleshooting guidance
-4. **Emergency Routing**: Identify emergencies and escalate appropriately
+## GUIDED PROMPTS (use these exact patterns)
+Issue: "Cooling issue or heating." (NOT "What's the problem?")
+City: "Dallas, Fort Worth, or Arlington." (NOT "Where are you located?")
+Time: "Morning or afternoon." (NOT "When works for you?")
+Name: "Name for the appointment." (NOT "Can I get your name?")
 
-## Conversation Flow
-1. Greet warmly and ask how you can help
-2. Listen to the customer's need
-3. If scheduling: collect name, issue description, preferred location, date, and time
-4. Use tools to check availability and book appointments
-5. Confirm all details before finalizing
-6. End with a warm closing
+## BOOKING FLOW (one variable per turn)
+1. "Cooling issue or heating."
+2. "Dallas, Fort Worth, or Arlington."
+3. "Morning or afternoon."
+4. "Name for the appointment."
+Collect ONE. Move to next. No deviations.
 
-## Important Guidelines
-- Convert natural language dates ("tomorrow", "next Monday") to YYYY-MM-DD format
-- Convert times to 24-hour HH:MM format internally, but speak in 12-hour format
-- Always verify location if not specified (we serve Dallas, Fort Worth, and Arlington)
-- If the caller seems frustrated, acknowledge their feelings first
-- For emergencies (gas leaks, no heat in freezing weather, etc.), immediately escalate
-- Never make up availability - always use the check_availability tool
-- Provide general HVAC tips when asked, but recommend professional service for repairs
+## POLITE INTERRUPTION
+If caller gives long explanation or multiple topics:
+- "Okay— got it. [redirect to current question]"
+- "Right. Let me focus on one thing. [question]"
+- "Alright. [question]"
+Never apologize. Never over-explain.
 
-## Service Locations
-- Dallas (DAL)
-- Fort Worth (FTW)  
-- Arlington (ARL)
+## VOCABULARY
+USE: "Alright" "Okay" "Got it" "What city" "Morning or afternoon"
+AVOID: "Tell me more" "Can you explain" "What seems to be" "Absolutely" "Happy to help"
 
-## Current Context
-Today's date: {datetime.now().strftime('%Y-%m-%d')}
-Current time: {datetime.now().strftime('%I:%M %p')}
+## YOUR VOICE
+- Calm, competent, in control
+- Short sentences. One per turn.
+- Light Texas neutral (not drawl)
+- Never rushed. Never perky.
+- You've done this 1000 times.
 
-Remember: You're speaking to real people who may be uncomfortable, frustrated, or worried about their HVAC issues. Be the helpful, understanding voice they need.
+## EXAMPLES
+Caller: "Well my AC has been making this noise and it's not cooling and I think maybe..."
+You: "Okay— got it. Cooling issue. Dallas, Fort Worth, or Arlington."
+
+Caller: "I'm in Dallas and I need someone tomorrow morning if possible"
+You: "Dallas. Morning. Name for the appointment."
+
+Caller: "John Smith"
+You: "John Smith. Checking tomorrow morning." [then use tools]
+
+## NEVER DO THIS
+- "What seems to be the issue?" → "Cooling or heating."
+- "Can you tell me more?" → Never say this.
+- "I understand, that must be frustrating..." → "Okay. Got it."
+- Ask two questions in one turn → ONE question only.
+
+## END OF CALL
+- "You're set. We'll see you then."
+- "Anything else." (not a question mark)
+
+## RULES
+- Use tools to check availability - never guess
+- Locations: Dallas (DAL), Fort Worth (FTW), Arlington (ARL)
+- Today: {datetime.now().strftime('%Y-%m-%d')}
+- Emergencies: stay calm but move fast
 """
 
 
@@ -144,10 +170,7 @@ class HVACAgent:
             # Check for human transfer request
             if self._wants_human(user_text):
                 state.requested_human = True
-                return (
-                    "I understand you'd like to speak with a representative. "
-                    "Let me transfer you to our team. Please hold on."
-                )
+                return "Alright. Transferring you now."
             
             # Detect caller emotion for empathetic response
             emotion = detect_caller_emotion(user_text)
@@ -254,24 +277,27 @@ class HVACAgent:
         return text
     
     def _build_messages(self, user_text: str, state: CallState) -> List[Dict[str, Any]]:
-        """Build message list for OpenAI."""
+        """Build message list for OpenAI - optimized for low latency."""
+        # Compact state context (only essential fields)
+        ctx = {
+            "name": state.name,
+            "loc": state.location_code,
+            "issue": state.issue[:50] if state.issue else None,
+            "appt": f"{state.appointment_date} {state.appointment_time}" if state.has_appointment else None,
+        }
+        ctx_str = json.dumps({k: v for k, v in ctx.items() if v}, separators=(',', ':'))
+        
         messages = [
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": f"{SYSTEM_PROMPT}\nState:{ctx_str}"},
         ]
         
-        # Add state context
-        state_context = state.to_context_dict()
-        messages.append({
-            "role": "system",
-            "content": f"Current call state: {json.dumps(state_context)}"
-        })
-        
-        # Add recent conversation history
+        # Add only last 3 turns (truncated to 100 chars each) for speed
         if state.conversation_history:
-            for turn in state.conversation_history[-6:]:  # Last 6 turns
+            for turn in state.conversation_history[-3:]:
+                content = turn.content[:100] + "..." if len(turn.content) > 100 else turn.content
                 messages.append({
                     "role": turn.role,
-                    "content": turn.content
+                    "content": content
                 })
         
         # Add current user message
@@ -288,9 +314,12 @@ class HVACAgent:
                 model=OPENAI_MODEL,
                 messages=messages,
                 tools=tools,
-                temperature=0.3,
-                max_tokens=500,
+                temperature=0.2,  # Lower for faster, more deterministic responses
+                max_tokens=80,    # Voice responses should be SHORT
             )
+        except httpx.TimeoutException:
+            self.logger.warning("OpenAI timeout - returning fallback")
+            return "One moment. Say that again."
         except Exception as e:
             self.logger.error("OpenAI API error: %s", str(e))
             raise
@@ -301,7 +330,7 @@ class HVACAgent:
         if msg.tool_calls:
             return self._handle_tool_calls(msg.tool_calls, messages, state)
         
-        return msg.content.strip() if msg.content else "I'm sorry, I didn't catch that. Could you please repeat?"
+        return msg.content.strip() if msg.content else "Didn't catch that. Say that again."
     
     def _handle_tool_calls(
         self,
@@ -350,13 +379,15 @@ class HVACAgent:
             follow_up = client.chat.completions.create(
                 model=OPENAI_MODEL,
                 messages=messages,
-                temperature=0.3,
-                max_tokens=500,
+                temperature=0.2,
+                max_tokens=80,  # Keep voice responses short
             )
             return follow_up.choices[0].message.content.strip()
+        except httpx.TimeoutException:
+            self.logger.warning("Follow-up timeout - using fallback")
+            return self._generate_fallback_response(tool_results, state)
         except Exception as e:
             self.logger.error("Follow-up completion error: %s", str(e))
-            # Return a generic response based on tool results
             return self._generate_fallback_response(tool_results, state)
     
     def _execute_tool(
@@ -469,7 +500,7 @@ class HVACAgent:
             if content.get("status") == "success":
                 return content.get("message", "I've completed that for you.")
         
-        return "I'm having a bit of trouble with that. Could you please try again?"
+        return "One moment. Try that again."
 
 
 def run_agent(
