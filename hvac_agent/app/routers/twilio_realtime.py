@@ -66,7 +66,7 @@ DEMO_MODE = os.getenv("DEMO_MODE", "true").lower() == "true"
 FALLBACK_MESSAGE = "I'm sorry, we're experiencing technical difficulties. Please hold while I transfer you to a representative."
 
 # Version for deployment verification
-_VERSION = "4.3.0-kc-persona-polished"
+_VERSION = "4.5.0-force-audio-fix"
 print(f"[REALTIME_MODULE_LOADED] Version: {_VERSION}")
 
 # =============================================================================
@@ -314,6 +314,7 @@ class RealtimeSession:
         
         # Session state
         self.session_configured = False
+        self.session_ready = False  # True after session.updated is received
         self.response_in_progress = False
         self.current_response_id: Optional[str] = None
         self.pending_function_calls: Dict[str, dict] = {}
@@ -462,27 +463,53 @@ class RealtimeSession:
         
         STRATEGIC: Keep greeting concise (~15-20 seconds) to avoid cutoff.
         The full pitch is in SYSTEM_PROMPT - this just kicks off the conversation.
+        
+        WORKAROUND: OpenAI Realtime API has a known bug where it sometimes
+        returns text-only responses. We force audio by creating a simple
+        audio response first, then sending the actual greeting.
         """
         if not self.openai_ws or not self.openai_connected:
             return
         
-        # SHORT greeting - they called us, they're already interested
-        # AIDA: Attention + Interest in 15 seconds, then let them drive
-        greeting_event = {
-            "type": "response.create",
-            "response": {
-                "modalities": ["text", "audio"],
-                "instructions": f"""Deliver this opening naturally (15 seconds max):
+        try:
+            # WORKAROUND: Force audio modality by creating a conversation item first
+            # This helps ensure the model outputs audio instead of text
+            # See: https://community.openai.com/t/realtime-api-updating-modalities/996243
+            init_item = {
+                "type": "conversation.item.create",
+                "item": {
+                    "type": "message",
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "input_text",
+                            "text": "Hello, I'm calling about your AI demo."
+                        }
+                    ]
+                }
+            }
+            await self.openai_ws.send(json.dumps(init_item))
+            logger.info("Sent initialization item to force audio modality")
+            
+            # Small delay to ensure item is processed
+            await asyncio.sleep(0.1)
+            
+            # SHORT greeting - they called us, they're already interested
+            # AIDA: Attention + Interest in 15 seconds, then let them drive
+            greeting_event = {
+                "type": "response.create",
+                "response": {
+                    "modalities": ["text", "audio"],
+                    "instructions": f"""Deliver this opening naturally (15 seconds max):
 
 "Hey there! Welcome to {COMPANY_NAME}'s AI demo. I'm KC - I'm the AI that could be answering your customer calls around the clock.
 
 Wanna test me out? Just pretend you're a homeowner with an HVAC issue, and I'll show you exactly what your customers would experience."
 
 Then STOP. Let them respond. Don't keep talking."""
+                }
             }
-        }
-        
-        try:
+            
             await self.openai_ws.send(json.dumps(greeting_event))
             logger.info("Triggered concise greeting (avoiding cutoff)")
         except Exception as e:
@@ -529,9 +556,17 @@ Then STOP. Let them respond. Don't keep talking."""
             # Connect to OpenAI and configure
             if await self.connect_to_openai():
                 await self.configure_session()
-                # Small delay to ensure session is ready
-                await asyncio.sleep(0.5)
-                await self.send_initial_greeting()
+                # Wait for session.updated event (with timeout)
+                wait_start = time.time()
+                while not self.session_ready and (time.time() - wait_start) < 5.0:
+                    await asyncio.sleep(0.1)
+                
+                if self.session_ready:
+                    logger.info("Session ready, sending initial greeting")
+                    await self.send_initial_greeting()
+                else:
+                    logger.warning("Session not ready after 5s, sending greeting anyway")
+                    await self.send_initial_greeting()
             else:
                 # OpenAI connection failed - fallback to transfer
                 logger.error("OpenAI connection failed, initiating fallback")
@@ -640,14 +675,22 @@ Then STOP. Let them respond. Don't keep talking."""
         """Process incoming message from OpenAI."""
         event_type = message.get("type")
         
+        # DEBUG: Log all event types to diagnose audio issues
+        if event_type not in ["response.audio.delta", "input_audio_buffer.append"]:
+            logger.info("OpenAI event: %s", event_type)
+        
         if event_type == "session.created":
             logger.info("OpenAI session created")
             
         elif event_type == "session.updated":
-            logger.info("OpenAI session updated")
+            logger.info("OpenAI session updated - session is now ready")
+            self.session_ready = True
             
         elif event_type == "response.audio.delta":
             # Stream audio back to Twilio
+            delta = message.get("delta", "")
+            if delta:
+                logger.debug("Audio delta received: %d bytes", len(delta))
             await self.forward_audio_to_twilio(message)
             
         elif event_type == "response.audio_transcript.delta":
@@ -686,18 +729,40 @@ Then STOP. Let them respond. Don't keep talking."""
             
         elif event_type == "response.created":
             self.response_in_progress = True
-            self.current_response_id = message.get("response", {}).get("id")
-            logger.info("AI response started: %s", self.current_response_id)
+            response = message.get("response", {})
+            self.current_response_id = response.get("id")
+            # Log full response details to debug audio issues
+            modalities = response.get("modalities", [])
+            status = response.get("status", "unknown")
+            logger.info("AI response started: id=%s, modalities=%s, status=%s", 
+                       self.current_response_id, modalities, status)
             
         elif event_type == "response.done":
             self.response_in_progress = False
+            response = message.get("response", {})
+            status = response.get("status", "unknown")
+            status_details = response.get("status_details", {})
+            output = response.get("output", [])
+            
+            # Log detailed response info to debug audio issues
+            logger.info("AI response complete: status=%s, output_items=%d", status, len(output))
+            if status_details:
+                logger.info("Response status_details: %s", json.dumps(status_details))
+            for item in output:
+                item_type = item.get("type", "unknown")
+                item_status = item.get("status", "unknown")
+                content = item.get("content", [])
+                logger.info("  Output item: type=%s, status=%s, content_parts=%d", 
+                           item_type, item_status, len(content))
+                for part in content:
+                    part_type = part.get("type", "unknown")
+                    logger.info("    Content part: type=%s", part_type)
+            
             self.current_response_id = None
             # ECHO CANCELLATION: Mark speaking as done
-            # Keep last_audio_sent_time set - the echo_suppression_ms buffer will handle trailing echo
-            # DON'T reset audio_send_start_time - we need it for the echo window
             self.is_speaking = False
-            self.last_audio_sent_time = time.time()  # Update end time for echo suppression
-            logger.info("AI response complete - echo suppression window active for %dms", self.echo_suppression_ms)
+            self.last_audio_sent_time = time.time()
+            logger.info("Echo suppression window active for %dms", self.echo_suppression_ms)
             
         elif event_type == "response.output_item.done":
             # Handle function calls - this is the correct event for completed function calls
@@ -711,11 +776,23 @@ Then STOP. Let them respond. Don't keep talking."""
             self.response_in_progress = False
             self.current_response_id = None
             
+        elif event_type == "response.content_part.added":
+            # Log content part details to debug audio issues
+            part = message.get("part", {})
+            logger.info("Content part added: type=%s", part.get("type", "unknown"))
+            
+        elif event_type == "response.output_item.added":
+            # Log output item details
+            item = message.get("item", {})
+            logger.info("Output item added: type=%s, id=%s", item.get("type", "unknown"), item.get("id", "unknown"))
+            
         elif event_type == "error":
             error = message.get("error", {})
             error_code = error.get("code", "unknown")
             error_msg = error.get("message", "Unknown error")
             logger.error("OpenAI error [%s]: %s", error_code, error_msg)
+            # Log full error for debugging
+            logger.error("Full error details: %s", json.dumps(error))
             
             # Handle specific error codes
             if error_code in ["session_expired", "invalid_session"]:
