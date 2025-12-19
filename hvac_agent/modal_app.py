@@ -15,7 +15,7 @@ Deployment version: 2.0.1-queue-based (forces cache invalidation)
 import modal
 
 # Force cache invalidation - change this value to force rebuild
-_CACHE_BUSTER = "v4.5.1-20241219-keep-warm"
+_CACHE_BUSTER = "v4.6.0-20241219-error-handling"
 
 # Define the Modal image with dependencies and local app source
 image = (

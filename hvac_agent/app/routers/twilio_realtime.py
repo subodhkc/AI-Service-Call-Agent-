@@ -66,7 +66,7 @@ DEMO_MODE = os.getenv("DEMO_MODE", "true").lower() == "true"
 FALLBACK_MESSAGE = "I'm sorry, we're experiencing technical difficulties. Please hold while I transfer you to a representative."
 
 # Version for deployment verification
-_VERSION = "4.5.0-force-audio-fix"
+_VERSION = "4.6.0-error-handling"
 print(f"[REALTIME_MODULE_LOADED] Version: {_VERSION}")
 
 # =============================================================================
@@ -352,6 +352,9 @@ class RealtimeSession:
         # Track which model we're using
         self.using_fallback_model: bool = False
         
+        # Fallback tracking - prevent multiple fallback triggers
+        self.fallback_triggered: bool = False
+        
     async def connect_to_openai(self) -> bool:
         """
         Establish WebSocket connection to OpenAI Realtime API.
@@ -463,53 +466,27 @@ class RealtimeSession:
         
         STRATEGIC: Keep greeting concise (~15-20 seconds) to avoid cutoff.
         The full pitch is in SYSTEM_PROMPT - this just kicks off the conversation.
-        
-        WORKAROUND: OpenAI Realtime API has a known bug where it sometimes
-        returns text-only responses. We force audio by creating a simple
-        audio response first, then sending the actual greeting.
         """
         if not self.openai_ws or not self.openai_connected:
             return
         
-        try:
-            # WORKAROUND: Force audio modality by creating a conversation item first
-            # This helps ensure the model outputs audio instead of text
-            # See: https://community.openai.com/t/realtime-api-updating-modalities/996243
-            init_item = {
-                "type": "conversation.item.create",
-                "item": {
-                    "type": "message",
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "input_text",
-                            "text": "Hello, I'm calling about your AI demo."
-                        }
-                    ]
-                }
-            }
-            await self.openai_ws.send(json.dumps(init_item))
-            logger.info("Sent initialization item to force audio modality")
-            
-            # Small delay to ensure item is processed
-            await asyncio.sleep(0.1)
-            
-            # SHORT greeting - they called us, they're already interested
-            # AIDA: Attention + Interest in 15 seconds, then let them drive
-            greeting_event = {
-                "type": "response.create",
-                "response": {
-                    "modalities": ["text", "audio"],
-                    "instructions": f"""Deliver this opening naturally (15 seconds max):
+        # SHORT greeting - they called us, they're already interested
+        # AIDA: Attention + Interest in 15 seconds, then let them drive
+        greeting_event = {
+            "type": "response.create",
+            "response": {
+                "modalities": ["text", "audio"],
+                "instructions": f"""Deliver this opening naturally (15 seconds max):
 
 "Hey there! Welcome to {COMPANY_NAME}'s AI demo. I'm KC - I'm the AI that could be answering your customer calls around the clock.
 
 Wanna test me out? Just pretend you're a homeowner with an HVAC issue, and I'll show you exactly what your customers would experience."
 
 Then STOP. Let them respond. Don't keep talking."""
-                }
             }
-            
+        }
+        
+        try:
             await self.openai_ws.send(json.dumps(greeting_event))
             logger.info("Triggered concise greeting (avoiding cutoff)")
         except Exception as e:
@@ -744,19 +721,37 @@ Then STOP. Let them respond. Don't keep talking."""
             status_details = response.get("status_details", {})
             output = response.get("output", [])
             
-            # Log detailed response info to debug audio issues
+            # Log detailed response info
             logger.info("AI response complete: status=%s, output_items=%d", status, len(output))
             if status_details:
                 logger.info("Response status_details: %s", json.dumps(status_details))
+            
+            # CRITICAL: Handle failed responses (quota exceeded, API errors, etc.)
+            if status == "failed":
+                error_info = status_details.get("error", {})
+                error_type = error_info.get("type", "unknown")
+                error_code = error_info.get("code", "unknown")
+                error_msg = error_info.get("message", "Unknown error")
+                
+                logger.error("OpenAI response FAILED: type=%s, code=%s, message=%s", 
+                           error_type, error_code, error_msg)
+                
+                # Send alert email for critical failures
+                await self.send_failure_alert_email(error_type, error_code, error_msg)
+                
+                # Trigger fallback - close stream so Twilio redirects to Gather system
+                if not self.fallback_triggered:
+                    self.fallback_triggered = True
+                    logger.warning("Triggering fallback due to API failure")
+                    # Close the stream - Twilio TwiML has fallback to Gather system
+                    self.closed = True
+            
             for item in output:
                 item_type = item.get("type", "unknown")
                 item_status = item.get("status", "unknown")
                 content = item.get("content", [])
                 logger.info("  Output item: type=%s, status=%s, content_parts=%d", 
                            item_type, item_status, len(content))
-                for part in content:
-                    part_type = part.get("type", "unknown")
-                    logger.info("    Content part: type=%s", part_type)
             
             self.current_response_id = None
             # ECHO CANCELLATION: Mark speaking as done
@@ -978,6 +973,84 @@ Then STOP. Let them respond. Don't keep talking."""
                 self.openai_connected = False
             except Exception as e:
                 logger.error("Error sending function call response: %s", str(e))
+    
+    async def send_failure_alert_email(self, error_type: str, error_code: str, error_msg: str):
+        """
+        Send alert email when AI agent fails (quota exceeded, API errors, etc.).
+        
+        This ensures the team is notified immediately when the agent goes down.
+        """
+        if not RESEND_API_KEY:
+            logger.warning("RESEND_API_KEY not configured - cannot send failure alert")
+            return
+        
+        try:
+            email_html = f"""
+            <h2 style="color: #dc3545;">🚨 AI Voice Agent FAILURE Alert</h2>
+            <p style="font-size: 16px; color: #333;">The AI voice agent encountered a critical error and is not responding to callers.</p>
+            
+            <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+                <tr style="background-color: #f8d7da;">
+                    <td style="padding: 12px; border: 1px solid #f5c6cb;"><strong>Error Type</strong></td>
+                    <td style="padding: 12px; border: 1px solid #f5c6cb;">{error_type}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>Error Code</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{error_code}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>Error Message</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{error_msg}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>Call SID</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{self.call_sid or 'N/A'}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>Caller</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{self.caller_number or 'N/A'}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>Timestamp</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">{datetime.now().isoformat()}</td>
+                </tr>
+            </table>
+            
+            <h3>Recommended Actions:</h3>
+            <ul>
+                <li><strong>insufficient_quota</strong>: Add credits to your OpenAI account at <a href="https://platform.openai.com/account/billing">platform.openai.com/account/billing</a></li>
+                <li><strong>rate_limit_exceeded</strong>: Wait a few minutes and try again</li>
+                <li><strong>server_error</strong>: OpenAI service issue - check <a href="https://status.openai.com">status.openai.com</a></li>
+            </ul>
+            
+            <p style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border: 1px solid #ffc107; border-radius: 4px;">
+                <strong>Note:</strong> Callers are being redirected to the fallback Gather system, but the AI voice experience is degraded.
+            </p>
+            """
+            
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(
+                    "https://api.resend.com/emails",
+                    headers={
+                        "Authorization": f"Bearer {RESEND_API_KEY}",
+                        "Content-Type": "application/json"
+                    },
+                    json={
+                        "from": "AI Agent Alerts <alerts@haiec.com>",
+                        "to": [LEAD_NOTIFICATION_EMAIL],
+                        "subject": f"🚨 AI Voice Agent DOWN - {error_code}",
+                        "html": email_html
+                    },
+                    timeout=10.0
+                )
+                
+                if resp.status_code == 200:
+                    logger.info("🚨 Failure alert email sent to %s", LEAD_NOTIFICATION_EMAIL)
+                else:
+                    logger.error("Failed to send failure alert: %s - %s", resp.status_code, resp.text)
+                    
+        except Exception as e:
+            logger.error("Error sending failure alert email: %s", str(e))
     
     async def send_lead_email(self, lead: dict):
         """Send lead notification email via Resend API."""
