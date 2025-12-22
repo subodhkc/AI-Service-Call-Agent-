@@ -101,6 +101,9 @@ export default function Navigation() {
             <a href="/video" className="text-gray-700 hover:text-blue-600 transition-colors">
               Video Calls
             </a>
+            <a href="/calendar" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Calendar
+            </a>
             <a href="/demo" className="text-gray-700 hover:text-blue-600 transition-colors">
               Demo
             </a>

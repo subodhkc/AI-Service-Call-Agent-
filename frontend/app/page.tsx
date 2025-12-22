@@ -1,29 +1,19 @@
-import Hero from '@/components/Hero';
-import ProblemSection from '@/components/ProblemSection';
-import DifferentiatorSection from '@/components/DifferentiatorSection';
-import CustomBuildSection from '@/components/CustomBuildSection';
-import HowItWorksSection from '@/components/HowItWorksSection';
-import PricingSection from '@/components/PricingSection';
-import ROICalculatorSection from '@/components/ROICalculatorSection';
-import TestimonialsSection from '@/components/TestimonialsSection';
-import FinalCTA from '@/components/FinalCTA';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  
+  useEffect(() => {
+    // Auto-redirect to admin portal, bypassing login
+    router.push("/admin/portal");
+  }, [router]);
+
   return (
-    <main className="min-h-screen">
-      <Navigation />
-      <Hero />
-      <ProblemSection />
-      <DifferentiatorSection />
-      <CustomBuildSection />
-      <HowItWorksSection />
-      <PricingSection />
-      <ROICalculatorSection />
-      <TestimonialsSection />
-      <FinalCTA />
-      <Footer />
-    </main>
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-gray-600">Redirecting to admin portal...</p>
+    </div>
   );
 }
