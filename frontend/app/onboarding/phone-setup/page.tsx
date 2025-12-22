@@ -386,7 +386,8 @@ export default function PhoneSetupPage() {
                 <select
                   value={portInData.carrier}
                   onChange={(e) => setPortInData({...portInData, carrier: e.target.value})}
-                  className="w-full border rounded-lg px-4 py-2"
+                  aria-label="Select carrier"
+                  className="px-4 py-2 border rounded-lg"
                 >
                   <option value="">Select carrier...</option>
                   <option value="att">AT&T</option>

@@ -325,11 +325,11 @@ export default function ClickToCallPage() {
                         </div>
                         <div className="flex items-center space-x-2">
                           {call.recording_url && (
-                            <button className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                            <button title="Play recording" aria-label="Play recording" className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                               <Play className="w-5 h-5" />
                             </button>
                           )}
-                          <button className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+                          <button title="Download recording" aria-label="Download recording" className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                             <Download className="w-5 h-5" />
                           </button>
                         </div>

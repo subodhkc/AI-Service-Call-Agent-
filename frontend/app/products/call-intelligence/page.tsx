@@ -189,6 +189,9 @@ export default function CallIntelligencePage() {
               {/* How It Works */}
               <div className="bg-white rounded-lg shadow p-6 mt-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">How AI Call Intelligence Works</h3>
+                <button title="Adjust volume" aria-label="Adjust volume" className="p-2 hover:bg-gray-100 rounded-lg">
+                  <Volume2 className="h-5 w-5" />
+                </button>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="text-center">
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
