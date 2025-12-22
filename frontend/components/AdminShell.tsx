@@ -75,7 +75,7 @@ export default function AdminShell({ children }: AdminShellProps) {
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100">
       {/* Top Bar */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-slate-800/95 backdrop-blur-sm border-b border-slate-700 z-50">
+      <header className="fixed top-0 left-0 right-0 h-16 bg-slate-800/95 backdrop-blur-sm border-b border-slate-700 z-[60]">
         <div className="h-full px-6 flex items-center justify-between">
           {/* Left: Logo + Environment */}
           <div className="flex items-center gap-6">
@@ -133,7 +133,7 @@ export default function AdminShell({ children }: AdminShellProps) {
               </button>
 
               {showUserMenu && (
-                <div className="absolute top-full right-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 z-50">
+                <div className="absolute top-full right-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 z-[100]">
                   <Link href="/admin/profile" className="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-700">
                     Profile Settings
                   </Link>
@@ -155,7 +155,7 @@ export default function AdminShell({ children }: AdminShellProps) {
       </header>
 
       {/* Sidebar */}
-      <aside className="fixed top-16 left-0 bottom-0 w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto">
+      <aside className="fixed top-16 left-0 bottom-0 w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto z-[50]">
         <nav className="p-4 space-y-6">
           {navigation.map((section) => (
             <div key={section.section}>

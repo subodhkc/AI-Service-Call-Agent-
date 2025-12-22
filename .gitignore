@@ -140,3 +140,15 @@ PRODUCT_AUDIT.md
 CALL_WORKFLOW_AUDIT.md
 AI_DEMO_AGENT_STRATEGY.md
 INTEGRATION_AUDIT.md
+
+# ===========================================
+# Local Reports & Summaries (Not for Git)
+# ===========================================
+*_REPORT.md
+*_SUMMARY.md
+*_GUIDE.md
+ENTERPRISE_OPS_CONSOLE_IMPLEMENTATION.md
+FIXES_SUMMARY.md
+LOGIN_FIX_REPORT.md
+SYSTEM_AUDIT_REPORT.md
+TROUBLESHOOTING_GUIDE.md

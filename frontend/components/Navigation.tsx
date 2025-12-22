@@ -1,14 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Phone, ChevronDown, LayoutDashboard, Users, Settings, CreditCard, Briefcase } from 'lucide-react';
-import { logout } from '@/lib/auth';
+import { logout, isAuthenticated } from '@/lib/auth';
 
 export default function Navigation() {
   const [showMultiTenant, setShowMultiTenant] = useState(false);
   const [showCRM, setShowCRM] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(isAuthenticated());
+  }, []);
 
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
@@ -28,6 +33,8 @@ export default function Navigation() {
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
+            {isLoggedIn && (
+              <>
             {/* Multi-Tenant Dropdown */}
             <div className="relative">
               <button
@@ -121,18 +128,22 @@ export default function Navigation() {
                 </a>
               </div>
             </div>
-            <a href="/demo" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Demo
-            </a>
-            <a href="/reports/weekly" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Reports
-            </a>
             <button
               onClick={handleLogout}
               className="text-gray-700 hover:text-red-600 font-medium"
             >
               Logout
             </button>
+            </>
+            )}
+            {!isLoggedIn && (
+              <a
+                href="/login"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Login
+              </a>
+            )}
             <a 
               href="tel:+15551234567" 
               className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
