@@ -5,6 +5,14 @@ import Image from 'next/image';
 import { Phone } from 'lucide-react';
 
 export default function Navigation() {
+  const router = useRouter();
+  const isLoggedIn = typeof window !== 'undefined' && isAuthenticated();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm">
       <div className="container mx-auto px-6 py-4">
@@ -48,4 +56,13 @@ export default function Navigation() {
           
           <a 
             href="tel:+15551234567" 
-            className="flex items-center gap-2 b
+            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+          >
+            <Phone size={20} />
+            <span className="hidden sm:inline">(555) 123-4567</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  );
+}
