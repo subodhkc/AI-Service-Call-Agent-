@@ -7,8 +7,15 @@ export default function Home() {
   const router = useRouter();
   
   useEffect(() => {
-    // Auto-redirect to admin portal, bypassing login
-    router.push("/admin/portal");
+    // Check if already authenticated
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("auth_token");
+      if (token) {
+        router.push("/admin/portal");
+      } else {
+        router.push("/login");
+      }
+    }
   }, [router]);
 
   return (

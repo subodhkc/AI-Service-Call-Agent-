@@ -29,6 +29,7 @@ from routers.ai_demo_meetings import router as ai_demo_router
 from routers.click_to_call import router as click_to_call_router
 from routers.integrations import router as integrations_router
 from routers.call_workflow import router as call_workflow_router
+from routers.error_logging import router as error_logging_router
 
 # Configure logging
 logging.basicConfig(
@@ -87,6 +88,7 @@ app.include_router(ai_demo_router)
 app.include_router(click_to_call_router)
 app.include_router(integrations_router)
 app.include_router(call_workflow_router)
+app.include_router(error_logging_router)
 
 @app.get("/")
 async def root():

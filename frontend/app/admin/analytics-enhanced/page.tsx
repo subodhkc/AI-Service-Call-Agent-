@@ -162,7 +162,8 @@ export default function AnalyticsEnhancedPage() {
           <select
             value={days}
             onChange={(e) => setDays(Number(e.target.value))}
-            className="border rounded-lg px-4 py-2"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            aria-label="Select number of days"
           >
             <option value={7}>Last 7 days</option>
             <option value={30}>Last 30 days</option>

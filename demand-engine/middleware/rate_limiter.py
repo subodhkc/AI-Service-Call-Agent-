@@ -10,7 +10,6 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from fastapi import Request, HTTPException, status
 from fastapi.responses import JSONResponse
-import asyncio
 
 logger = logging.getLogger(__name__)
 
