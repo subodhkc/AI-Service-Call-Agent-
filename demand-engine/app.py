@@ -11,6 +11,8 @@ from calculator.api import router as calculator_router
 from pdf_generator.router import router as pdf_router
 from admin.api import router as admin_router
 from admin.signals_api import router as signals_router
+from admin.conversion_api import router as conversion_router
+from admin.analytics_api import router as analytics_router
 
 # Configure logging
 logging.basicConfig(

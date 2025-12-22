@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import SignalDetailModal from "@/components/SignalDetailModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -367,17 +368,30 @@ export default function SignalsPage() {
                             <div>Keyword only</div>
                           )}
                         </div>
-                        {signal.url && (
-                          <a
-                            href={signal.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline text-xs flex items-center gap-1 mt-2"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            View Source <ExternalLink className="h-3 w-3" />
-                          </a>
-                        )}
+                        <div className="flex flex-col gap-1 mt-2">
+                          {signal.url && (
+                            <a
+                              href={signal.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline text-xs flex items-center gap-1"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              View Source <ExternalLink className="h-3 w-3" />
+                            </a>
+                          )}
+                          {!signal.alerted && (signal.combined_score || signal.keyword_score) >= 70 && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                convertToLead(signal.id);
+                              }}
+                              className="text-green-600 hover:underline text-xs flex items-center gap-1"
+                            >
+                              <UserPlus className="h-3 w-3" /> Convert to Lead
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -386,12 +400,6 @@ export default function SignalsPage() {
           )}
         </CardContent>
       </Card>
-
-      <SignalDetailModal
-        signalId={selectedSignal}
-        isOpen={selectedSignal !== null}
-        onClose={() => setSelectedSignal(null)}
-      />
     </div>
   );
 }

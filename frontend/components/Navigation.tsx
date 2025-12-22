@@ -26,6 +26,12 @@ export default function Navigation() {
             <Link href="/demo" className="text-gray-700 hover:text-blue-600 font-medium">
               Live Demo
             </Link>
+            <Link href="/admin/signals" className="text-gray-700 hover:text-blue-600 font-medium">
+              Pain Signals
+            </Link>
+            <Link href="/admin/analytics" className="text-gray-700 hover:text-blue-600 font-medium">
+              Analytics
+            </Link>
           </div>
           
           <a 
