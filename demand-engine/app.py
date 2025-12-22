@@ -19,6 +19,10 @@ from crm.tasks_api import router as tasks_router
 from crm.pipeline_api import router as pipeline_router
 from crm.email_marketing_api import router as email_marketing_router
 from crm.scrapers_api import router as scrapers_router
+from routers.admin_tenants import router as tenants_router
+from routers.ai_guru import router as ai_guru_router
+from routers.twilio_provisioning import router as twilio_router
+from routers.daily_video import router as video_router
 
 # Configure logging
 logging.basicConfig(
