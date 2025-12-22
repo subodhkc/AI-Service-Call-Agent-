@@ -18,24 +18,14 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    try {
-      // Simple authentication - replace with your actual auth system
-      // For now, using localStorage for demo purposes
-      if (email && password) {
-        // Store auth token (in production, use proper JWT/session management)
-        localStorage.setItem("auth_token", "demo_token");
-        localStorage.setItem("user_email", email);
-        localStorage.setItem("user_role", "admin");
-        
-        router.push("/admin/portal");
-      } else {
-        setError("Please enter email and password");
-      }
-    } catch (err) {
-      setError("Login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    // BYPASS LOGIN - Auto-authenticate for development
+    localStorage.setItem("auth_token", "demo_token");
+    localStorage.setItem("user_email", email || "admin@kestrel.ai");
+    localStorage.setItem("user_role", "admin");
+    
+    setTimeout(() => {
+      router.push("/admin/portal");
+    }, 500);
   };
 
   return (

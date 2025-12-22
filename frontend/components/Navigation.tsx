@@ -98,9 +98,12 @@ export default function Navigation() {
               )}
             </div>
 
-            <Link href="/demo" className="text-gray-700 hover:text-blue-600 font-medium">
+            <a href="/video" className="text-gray-700 hover:text-blue-600 transition-colors">
+              Video Calls
+            </a>
+            <a href="/demo" className="text-gray-700 hover:text-blue-600 transition-colors">
               Demo
-            </Link>
+            </a>
             <button
               onClick={handleLogout}
               className="text-gray-700 hover:text-red-600 font-medium"

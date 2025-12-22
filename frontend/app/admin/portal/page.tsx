@@ -252,6 +252,51 @@ export default function AdminPortalPage() {
               </>
             )}
 
+            {activeTab === "customer-setup" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Customer Setup (Admin)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <p className="text-gray-600">Set up new customers on behalf of your team</p>
+                    
+                    <Button 
+                      onClick={() => window.location.href = "/onboarding/phone-setup"}
+                      className="w-full"
+                    >
+                      <Phone className="h-4 w-4 mr-2" />
+                      Start Customer Setup
+                    </Button>
+
+                    <div className="border-t pt-4 mt-4">
+                      <h3 className="font-medium mb-3">Recent Setups</h3>
+                      <div className="space-y-2">
+                        <div className="p-3 border rounded-lg">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium">Acme HVAC</p>
+                              <p className="text-sm text-gray-600">+1-555-123-4567</p>
+                            </div>
+                            <Badge className="bg-green-100 text-green-800">Active</Badge>
+                          </div>
+                        </div>
+                        <div className="p-3 border rounded-lg">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium">Smith Plumbing</p>
+                              <p className="text-sm text-gray-600">+1-555-987-6543</p>
+                            </div>
+                            <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
             {activeTab === "inbox" && (
               <Card>
                 <CardHeader>
