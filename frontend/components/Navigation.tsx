@@ -6,10 +6,12 @@ import { Phone, ChevronDown, LayoutDashboard, Users, Settings, CreditCard, Brief
 import { logout, isAuthenticated } from '@/lib/auth';
 
 export default function Navigation() {
-  const [showMultiTenant, setShowMultiTenant] = useState(false);
-  const [showCRM, setShowCRM] = useState(false);
-  const [showAdmin, setShowAdmin] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const toggleDropdown = (dropdown: string) => {
+    setOpenDropdown(openDropdown === dropdown ? null : dropdown);
+  };
 
   useEffect(() => {
     setIsLoggedIn(isAuthenticated());
@@ -31,126 +33,94 @@ export default function Navigation() {
             </div>
             <div className="text-xl font-bold text-blue-600">Kestrel Voice Operations</div>
           </Link>
-          
-          <div className="hidden md:flex items-center gap-6">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {/* Products Dropdown - Always visible */}
+            <div className="relative">
+              <button
+                onClick={() => toggleDropdown('products')}
+                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                <span>Products</span>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {openDropdown === 'products' && (
+                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                <Link href="/products/call-intelligence" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  <div className="font-semibold">AI Call Agent</div>
+                  <div className="text-xs text-gray-500">24/7 voice receptionist</div>
+                </Link>
+                <Link href="/products/click-to-call" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  <div className="font-semibold">Click-to-Call</div>
+                  <div className="text-xs text-gray-500">One-click dialing</div>
+                </Link>
+                <Link href="/products/follow-up-autopilot" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  <div className="font-semibold">Follow-Up Autopilot</div>
+                  <div className="text-xs text-gray-500">Automated follow-ups</div>
+                </Link>
+                <Link href="/video" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                  <div className="font-semibold">Video Calls</div>
+                  <div className="text-xs text-gray-500">HD video conferencing</div>
+                </Link>
+              </div>
+              )}
+            </div>
+
             {isLoggedIn && (
               <>
-            {/* Multi-Tenant Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setShowMultiTenant(!showMultiTenant)}
-                className="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium"
-              >
-                <LayoutDashboard size={16} />
-                Multi-Tenant
-                <ChevronDown size={16} />
-              </button>
-              {showMultiTenant && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
-                >
-                  <Link href="/onboarding" className="block px-4 py-2 hover:bg-gray-50">Onboarding</Link>
-                  <Link href="/dashboard" className="block px-4 py-2 hover:bg-gray-50">Dashboard</Link>
-                  <Link href="/settings" className="block px-4 py-2 hover:bg-gray-50">Settings</Link>
-                  <Link href="/billing" className="block px-4 py-2 hover:bg-gray-50">Billing</Link>
+                {/* CRM Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleDropdown('crm')}
+                    className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
+                  >
+                    <span>CRM</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  {openDropdown === 'crm' && (
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                      <Link href="/crm/leads" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Leads</Link>
+                      <Link href="/crm/contacts" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Contacts</Link>
+                      <Link href="/crm/pipeline" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pipeline</Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            {/* CRM Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setShowCRM(!showCRM)}
-                className="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium"
-              >
-                <Users size={16} />
-                CRM
-                <ChevronDown size={16} />
-              </button>
-              {showCRM && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
-                >
-                  <Link href="/crm/pipeline" className="block px-4 py-2 hover:bg-gray-50">Pipeline</Link>
-                  <Link href="/crm/email-campaigns" className="block px-4 py-2 hover:bg-gray-50">Email Campaigns</Link>
-                  <Link href="/crm/scrapers" className="block px-4 py-2 hover:bg-gray-50">Scrapers</Link>
-                  <Link href="/crm/tasks" className="block px-4 py-2 hover:bg-gray-50">Tasks</Link>
+                {/* Admin Dropdown */}
+                <div className="relative">
+                  <button
+                    onClick={() => toggleDropdown('admin')}
+                    className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
+                  >
+                    <span>Admin</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  {openDropdown === 'admin' && (
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                      <Link href="/admin/portal" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</Link>
+                      <Link href="/admin/analytics" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Analytics</Link>
+                      <Link href="/settings" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</Link>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-
-            {/* Admin Dropdown */}
-            <div className="relative">
-              <button
-                onClick={() => setShowAdmin(!showAdmin)}
-                className="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium"
-              >
-                <Briefcase size={16} />
-                Admin
-                <ChevronDown size={16} />
-              </button>
-              {showAdmin && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
-                >
-                  <Link href="/admin/portal" className="block px-4 py-2 hover:bg-gray-50">Portal</Link>
-                  <Link href="/admin/signals" className="block px-4 py-2 hover:bg-gray-50">Pain Signals</Link>
-                  <Link href="/admin/analytics-enhanced" className="block px-4 py-2 hover:bg-gray-50">Analytics</Link>
-                </div>
-              )}
-            </div>
-
+              </>
+            )}
             <a href="/video" className="text-gray-700 hover:text-blue-600 transition-colors">
               Video Calls
             </a>
             <a href="/calendar" className="text-gray-700 hover:text-blue-600 transition-colors">
               Calendar
             </a>
-            <a href="/book-ai-demo" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Book AI Demo
-            </a>
-            <div className="relative group">
-              <button className="text-gray-700 hover:text-blue-600 transition-colors">
-                Products ▾
-              </button>
-              <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                <a href="/products/call-intelligence" className="block px-4 py-3 hover:bg-gray-50 transition-colors">
-                  <div className="font-semibold text-gray-900">AI Call Intelligence</div>
-                  <div className="text-xs text-gray-600">Real-time coaching</div>
-                </a>
-                <a href="/products/follow-up-autopilot" className="block px-4 py-3 hover:bg-gray-50 transition-colors">
-                  <div className="font-semibold text-gray-900">Follow-Up Autopilot</div>
-                  <div className="text-xs text-gray-600">Auto-generate emails</div>
-                </a>
-                <a href="/products/click-to-call" className="block px-4 py-3 hover:bg-gray-50 transition-colors">
-                  <div className="font-semibold text-gray-900">Click-to-Call Dialer</div>
-                  <div className="text-xs text-gray-600">Call + auto-log</div>
-                </a>
-              </div>
-            </div>
             <button
               onClick={handleLogout}
               className="text-gray-700 hover:text-red-600 font-medium"
             >
               Logout
             </button>
-            </>
-            )}
-            {!isLoggedIn && (
-              <a
-                href="/login"
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
                 Login
               </a>
             )}
-            <a 
-              href="tel:+15551234567" 
-              className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-            >
-              <Phone size={20} />
-              <span className="hidden sm:inline">(555) 123-4567</span>
-            </a>
           </div>
         </div>
       </div>
