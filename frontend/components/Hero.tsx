@@ -1,157 +1,102 @@
 'use client';
 
-import { Phone, ArrowRight, Check, Zap, Clock, TrendingUp, Shield, Award, Lock, CheckCircle } from 'lucide-react';
+import { ArrowRight, Check, Zap, Clock, TrendingUp, Shield, Sparkles, BarChart3 } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white py-20 md:py-32 mt-16 overflow-hidden">
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-blue-600/20 animate-gradient-x"></div>
+    <section className="relative bg-white text-neutral-900 pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+      {/* Animated floating orbs - Stripe style */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-float-delayed"></div>
+      <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-gradient-to-br from-pink-500/15 to-orange-500/15 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
       
-      {/* Floating orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float-delayed"></div>
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Content */}
-          <div>
-            <p className="text-blue-200 text-sm uppercase tracking-wide mb-4 font-semibold">
-              Kestrel Voice Operations
-            </p>
+        <div className="max-w-6xl mx-auto">
+          {/* Center-aligned hero content */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full mb-6 animate-fade-in" style={{animationDelay: '0.2s'}}>
+              <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
+              <span className="text-sm font-medium text-blue-900">Trusted by 500+ service businesses</span>
+            </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 bg-clip-text text-transparent animate-gradient-x">
-                Stop Losing $2M+ In Revenue
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight">
+              <span className="block mb-2 animate-fade-in" style={{animationDelay: '0.3s'}}>Never miss a call.</span>
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient animate-fade-in" style={{animationDelay: '0.4s'}}>
+                Never lose revenue.
               </span>
-              <br/>
-              <span className="text-white">From Missed Calls & Poor Follow-Ups</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-slate-300 mb-8 leading-relaxed">
-              AI-powered voice operations that never miss a lead, automatically follow up, 
-              and close more deals. Built for service businesses handling 100+ calls/month.
+            <p className="text-xl md:text-2xl text-neutral-600 mb-10 leading-relaxed max-w-3xl mx-auto animate-fade-in" style={{animationDelay: '0.5s'}}>
+              AI voice agents that answer every call, book appointments instantly, and follow up automatically. 
+              <span className="font-semibold text-neutral-900">Built for HVAC, plumbing, and home service businesses.</span>
             </p>
             
-            {/* Stats bar */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <Zap className="w-4 h-4 text-yellow-400" />
-                  <div className="text-2xl md:text-3xl font-bold text-white">200ms</div>
-                </div>
-                <div className="text-xs text-slate-400">Response Time</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <Clock className="w-4 h-4 text-green-400" />
-                  <div className="text-2xl md:text-3xl font-bold text-white">24/7</div>
-                </div>
-                <div className="text-xs text-slate-400">Always Available</div>
-              </div>
-              <div className="text-center">
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <TrendingUp className="w-4 h-4 text-blue-400" />
-                  <div className="text-2xl md:text-3xl font-bold text-white">40%</div>
-                </div>
-                <div className="text-xs text-slate-400">More Bookings</div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-fade-in" style={{animationDelay: '0.6s'}}>
               <a 
                 href="/calendar"
-                className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                className="group inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all shadow-lg hover:shadow-xl hover:scale-105"
               >
-                <Phone size={20} />
-                Book a Demo
+                Get Started Free
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a 
-                href="/case-studies"
-                className="flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-lg text-lg font-semibold transition-all"
+                href="#demo"
+                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-neutral-50 text-neutral-900 border-2 border-neutral-200 hover:border-neutral-300 px-8 py-4 rounded-lg text-lg font-semibold transition-all"
               >
-                See Case Studies
-                <ArrowRight size={20} />
+                Watch Demo
               </a>
             </div>
             
-            <div className="flex flex-wrap items-center gap-6 text-sm text-blue-200 mb-6">
+            {/* Trust indicators */}
+            <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-neutral-600">
               <div className="flex items-center gap-2">
-                <Check className="text-green-400" size={18} />
-                48-Hour Setup
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="text-green-400" size={18} />
-                No Credit Card Required
+                <Check className="text-green-600 w-5 h-5" />
+                Enterprise-Grade Security
               </div>
               <div className="flex items-center gap-2">
-                <Check className="text-green-400" size={18} />
-                Cancel Anytime
+                <Check className="text-green-600 w-5 h-5" />
+                <span className="font-medium">99.9% Uptime SLA</span>
               </div>
-            </div>
-            
-            {/* Security Badges */}
-            <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-white/10">
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <Shield className="w-4 h-4 text-green-400" />
-                <span>SOC 2 Certified</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <Lock className="w-4 h-4 text-green-400" />
-                <span>HIPAA Compliant</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-slate-400">
-                <Award className="w-4 h-4 text-green-400" />
-                <span>99.9% Uptime SLA</span>
+              <div className="flex items-center gap-2">
+                <Check className="text-green-600 w-5 h-5" />
+                <span className="font-medium">Setup in 24 hours</span>
               </div>
             </div>
           </div>
           
-          {/* Right Column - Animated Demo */}
-          <div className="hidden lg:block">
-            <div className="relative">
-              {/* Demo Container */}
-              <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 shadow-2xl">
-                {/* Animated Phone Call Visualization */}
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center animate-pulse">
-                      <Phone className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-white font-semibold">Incoming Call</div>
-                      <div className="text-slate-400 text-sm">+1 (555) 123-4567</div>
-                    </div>
-                  </div>
-                  
-                  {/* Conversation Bubbles */}
-                  <div className="space-y-3">
-                    <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 animate-in slide-in-from-left">
-                      <p className="text-sm text-white">"Hi, I need emergency AC repair..."</p>
-                    </div>
-                    <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 ml-8 animate-in slide-in-from-right" style={{animationDelay: '0.5s'}}>
-                      <p className="text-sm text-white">"I can help! What's your address?"</p>
-                    </div>
-                    <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 animate-in slide-in-from-left" style={{animationDelay: '1s'}}>
-                      <p className="text-sm text-white">"123 Main St, Phoenix AZ"</p>
-                    </div>
-                    <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 ml-8 animate-in slide-in-from-right" style={{animationDelay: '1.5s'}}>
-                      <p className="text-sm text-white">"Perfect! Scheduling technician..."</p>
-                    </div>
-                  </div>
-                  
-                  {/* Success Indicator */}
-                  <div className="flex items-center gap-2 pt-4 border-t border-white/10 animate-in fade-in" style={{animationDelay: '2s'}}>
-                    <CheckCircle className="w-5 h-5 text-green-400" />
-                    <span className="text-sm text-green-400 font-semibold">Appointment Booked</span>
-                  </div>
-                </div>
+          {/* Stats Grid - Stripe style */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-12 border-t border-neutral-200">
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Zap className="w-5 h-5 text-amber-500" />
+                <div className="text-4xl font-bold text-neutral-900">200ms</div>
               </div>
-              
-              {/* Floating Stats */}
-              <div className="absolute -top-4 -right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg animate-bounce">
-                <span className="text-sm font-bold">+$2,400 Revenue</span>
+              <div className="text-sm text-neutral-600">Average response time</div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Clock className="w-5 h-5 text-blue-500" />
+                <div className="text-4xl font-bold text-neutral-900">24/7</div>
               </div>
+              <div className="text-sm text-neutral-600">Always available</div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <TrendingUp className="w-5 h-5 text-green-500" />
+                <div className="text-4xl font-bold text-neutral-900">40%</div>
+              </div>
+              <div className="text-sm text-neutral-600">More appointments</div>
+            </div>
+            <div className="text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <BarChart3 className="w-5 h-5 text-purple-500" />
+                <div className="text-4xl font-bold text-neutral-900">$2M+</div>
+              </div>
+              <div className="text-sm text-neutral-600">Revenue recovered</div>
             </div>
           </div>
         </div>

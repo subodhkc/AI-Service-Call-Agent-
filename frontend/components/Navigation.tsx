@@ -41,17 +41,15 @@ export default function Navigation() {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-white/90 backdrop-blur-sm shadow-sm'
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      scrolled ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-neutral-200' : 'bg-white/80 backdrop-blur-md'
     }`}>
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 z-50">
-            <img 
-              src="/website-logo-wide.png" 
-              alt="Kestrel Voice Operations" 
-              className="h-9 w-auto max-w-[180px] object-contain transition-all duration-200 hover:opacity-80"
-            />
+          <Link href="/" className="flex items-center gap-2 z-50 group">
+            <div className="text-xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
+              Kestrel AI
+            </div>
           </Link>
           {/* Mobile Menu Button */}
           <button
@@ -67,92 +65,46 @@ export default function Navigation() {
           </button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {/* Products Dropdown - Always visible */}
-            <div className="relative">
-              <button
-                onClick={() => toggleDropdown('products')}
-                className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                <span>Products</span>
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              {openDropdown === 'products' && (
-                <div className="absolute top-full left-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                <Link href="/products/call-intelligence" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                  <div className="font-semibold">AI Call Agent</div>
-                  <div className="text-xs text-gray-500">24/7 voice receptionist</div>
-                </Link>
-                <Link href="/products/click-to-call" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                  <div className="font-semibold">Click-to-Call</div>
-                  <div className="text-xs text-gray-500">One-click dialing</div>
-                </Link>
-                <Link href="/products/follow-up-autopilot" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                  <div className="font-semibold">Follow-Up Autopilot</div>
-                  <div className="text-xs text-gray-500">Automated follow-ups</div>
-                </Link>
-                <Link href="/video" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                  <div className="font-semibold">Video Calls</div>
-                  <div className="text-xs text-gray-500">HD video conferencing</div>
-                </Link>
-              </div>
-              )}
-            </div>
+          <div className="hidden md:flex items-center gap-8">
+            <Link href="/#features" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+              Features
+            </Link>
+            <Link href="/#pricing" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+              Pricing
+            </Link>
+            <Link href="/docs" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+              Docs
+            </Link>
 
             {isLoggedIn && (
               <>
-                {/* CRM Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => toggleDropdown('crm')}
-                    className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    <span>CRM</span>
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
-                  {openDropdown === 'crm' && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                      <Link href="/crm/leads" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Leads</Link>
-                      <Link href="/crm/contacts" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Contacts</Link>
-                      <Link href="/crm/pipeline" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Pipeline</Link>
-                    </div>
-                  )}
-                </div>
-
-                {/* Admin Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => toggleDropdown('admin')}
-                    className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors"
-                  >
-                    <span>Admin</span>
-                    <ChevronDown className="w-4 h-4" />
-                  </button>
-                  {openDropdown === 'admin' && (
-                    <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                      <Link href="/admin/portal" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Dashboard</Link>
-                      <Link href="/admin/analytics" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Analytics</Link>
-                      <Link href="/settings" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">Settings</Link>
-                    </div>
-                  )}
-                </div>
-
+                <Link href="/dashboard" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+                  Dashboard
+                </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-gray-700 hover:text-red-600 font-medium"
+                  className="text-sm font-medium text-neutral-600 hover:text-red-600 transition-colors"
                 >
-                  Logout
+                  Sign Out
                 </button>
               </>
             )}
 
             {!isLoggedIn && (
-              <a
-                href="/login"
-                className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-all duration-200 hover:shadow-lg hover:scale-105"
-              >
-                Sign In
-              </a>
+              <>
+                <a
+                  href="/login"
+                  className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors"
+                >
+                  Sign In
+                </a>
+                <a
+                  href="/calendar"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-all shadow-sm hover:shadow-md"
+                >
+                  Get Started
+                </a>
+              </>
             )}
           </div>
         </div>
