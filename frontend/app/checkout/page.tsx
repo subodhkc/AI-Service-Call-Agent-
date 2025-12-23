@@ -9,52 +9,52 @@ import Footer from '@/components/Footer';
 const plans = [
   {
     id: 'starter',
-    name: 'Starter',
-    price: 497,
+    name: 'Autonomous Intake',
+    price: 999,
     priceId: 'price_starter', // Replace with actual Stripe Price ID
-    description: 'Perfect for small businesses getting started',
+    description: 'Deterministic appointment & lead workflows',
     features: [
       'Up to 500 calls/month',
-      'Basic AI voice agent',
+      'Autonomous intake & qualification',
       'Email support',
-      'Standard integrations',
-      'Call analytics dashboard',
+      'Basic CRM integration',
+      'Operational telemetry dashboard',
     ],
     popular: false,
   },
   {
     id: 'professional',
-    name: 'Professional',
-    price: 1497,
+    name: 'Integrated Operations',
+    price: 1997,
     priceId: 'price_professional', // Replace with actual Stripe Price ID
     setupFee: 4997,
-    description: 'Most popular for growing service businesses',
+    description: 'Enterprise routing, CRM sync, multi-location',
     features: [
-      'Up to 1,500 calls/month',
-      'Custom AI voice agent',
-      'Priority support',
-      'All integrations',
-      'Advanced analytics',
-      'Custom workflows',
-      'Dedicated account manager',
+      'Up to 2,000 calls/month',
+      'Deterministic workflows',
+      'Priority support (2-hour response)',
+      'ServiceTitan/Housecall Pro integration',
+      'Operational telemetry',
+      'Outcome-anchored routing',
+      '12-hour deployment',
     ],
     popular: true,
   },
   {
     id: 'enterprise',
-    name: 'Enterprise',
+    name: 'VoiceOps Premium',
     price: 'Custom',
     priceId: 'price_enterprise', // Replace with actual Stripe Price ID
-    description: 'For large organizations with complex needs',
+    description: 'Custom workflow encoding, SLA, voice variants',
     features: [
       'Unlimited calls',
-      'Fully custom AI solution',
-      '24/7 premium support',
-      'Custom integrations',
-      'White-label options',
-      'SLA guarantees',
-      'Dedicated success team',
-      'Custom training',
+      'Custom workflow encoding',
+      '24/7 support (30-min SLA)',
+      'RESTful API & custom integrations',
+      'Multi-location support',
+      'White-glove onboarding',
+      'Dedicated success manager',
+      'Custom voice variants',
     ],
     popular: false,
   },
@@ -117,7 +117,7 @@ export default function CheckoutPage() {
                 Choose Your Plan
               </h1>
               <p className="text-xl md:text-2xl text-neutral-300 leading-relaxed max-w-2xl mx-auto">
-                Start capturing every opportunity with AI-powered voice operations
+                Deploy voice operations infrastructure proven in HVAC
               </p>
             </div>
           </div>

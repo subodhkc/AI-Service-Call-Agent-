@@ -62,7 +62,7 @@ export default function ContactPage() {
                 Let's Talk
               </h1>
               <p className="text-xl md:text-2xl text-neutral-300 leading-relaxed max-w-2xl mx-auto">
-                Ready to transform your service operations? Schedule a demo or reach out to our team.
+                Ready to deploy voice operations infrastructure? Request workflow validation or schedule a platform demo.
               </p>
             </div>
           </div>
@@ -119,7 +119,7 @@ export default function ContactPage() {
                   <p className="text-neutral-600 mb-8">We'll get back to you within 24 hours</p>
                   <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                     Fill out the form and our team will reach out within 2 hours during business hours. 
-                    We'll discuss your specific needs and show you how Kestrel can help.
+                    We'll analyze your call patterns and demonstrate platform capabilities for your workflows.
                   </p>
                   {/* Contact Info */}
                   <div className="lg:col-span-2 space-y-6">
@@ -129,9 +129,9 @@ export default function ContactPage() {
                         <CheckCircle className="h-5 w-5 text-blue-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Free Consultation</h3>
+                        <h3 className="font-semibold mb-1">Workflow Validation</h3>
                         <p className="text-gray-600 text-sm">
-                          30-minute call to understand your business and demonstrate our platform
+                          1-week call analysis to validate platform fit and quantify revenue impact
                         </p>
                       </div>
                     </div>
@@ -140,9 +140,9 @@ export default function ContactPage() {
                         <Phone className="h-6 w-6 text-green-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">Custom Demo</h3>
+                        <h3 className="font-semibold mb-1">Platform Demo</h3>
                         <p className="text-gray-600 text-sm">
-                          See how Kestrel works with your specific workflows and systems
+                          See deterministic workflows handling your actual call patterns and integrations
                         </p>
                       </div>
                     </div>
@@ -151,9 +151,9 @@ export default function ContactPage() {
                         <MapPin className="h-6 w-6 text-purple-600" />
                       </div>
                       <div>
-                        <h3 className="font-semibold mb-1">ROI Analysis</h3>
+                        <h3 className="font-semibold mb-1">Revenue Impact Analysis</h3>
                         <p className="text-gray-600 text-sm">
-                          We'll calculate your potential revenue impact and cost savings
+                          Quantify revenue leakage recovery and operational efficiency gains
                         </p>
                       </div>
                     </div>
@@ -311,8 +311,8 @@ export default function ContactPage() {
                 <div className="bg-white p-6 rounded-xl shadow-sm">
                   <h3 className="text-lg font-semibold mb-2">How quickly can you deploy?</h3>
                   <p className="text-gray-600">
-                    We deploy custom AI voice agents in 48 hours. After our initial consultation, 
-                    we build your agent, integrate with your systems, and have you live within 2 business days.
+                    Platform deployment in 48 hours. After workflow validation, we configure deterministic 
+                    workflows, integrate with your systems, and deploy to production within 2 business days.
                   </p>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm">
@@ -325,15 +325,15 @@ export default function ContactPage() {
                 <div className="bg-white p-6 rounded-xl shadow-sm">
                   <h3 className="text-lg font-semibold mb-2">What integrations do you support?</h3>
                   <p className="text-gray-600">
-                    We integrate with ServiceTitan, Housecall Pro, Jobber, and most major CRM/FSM platforms. 
-                    We can also build custom integrations for your specific tools.
+                    Native connectors for ServiceTitan, Housecall Pro, Jobber, and major CRM/FSM platforms. 
+                    RESTful API available for custom integrations and data pipelines.
                   </p>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-sm">
                   <h3 className="text-lg font-semibold mb-2">What's your pricing?</h3>
                   <p className="text-gray-600">
-                    Professional tier starts at $1,497/month with a one-time $4,997 custom build fee. 
-                    This includes up to 1,500 calls/month, full integration, and ongoing optimization.
+                    Integrated Operations tier starts at $1,997/month with $4,997 setup. 
+                    Includes up to 2,000 calls/month, enterprise routing, CRM sync, and 12-hour deployment.
                   </p>
                 </div>
               </div>

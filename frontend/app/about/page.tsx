@@ -18,11 +18,11 @@ export default function AboutPage() {
           <div className="container mx-auto px-6 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-neutral-300 bg-clip-text text-transparent">
-                Transforming Service Operations with AI
+                Voice Operations Platform for Service Industries
               </h1>
               <p className="text-xl md:text-2xl text-neutral-300 leading-relaxed max-w-3xl mx-auto">
-                We're on a mission to help service businesses capture every opportunity, 
-                never miss a call, and scale operations without scaling overhead.
+                Building deterministic voice infrastructure proven in HVAC, 
+                scaling to service industries worldwide.
               </p>
             </div>
           </div>
@@ -38,9 +38,9 @@ export default function AboutPage() {
                 </div>
                 <h2 className="text-3xl font-bold mb-4 text-neutral-900">Our Mission</h2>
                 <p className="text-lg text-neutral-600 leading-relaxed">
-                  To empower service businesses with AI-powered voice operations that work 24/7, 
-                  ensuring no customer inquiry goes unanswered and every opportunity is captured. 
-                  We believe every call is a potential revenue opportunity that deserves professional handling.
+                  To build the leading voice operations platform for service businesses, 
+                  delivering deterministic workflows that ensure zero revenue leakage. 
+                  We believe every call is a measurable opportunity that demands infrastructure-grade reliability.
                 </p>
               </div>
               <div className="bg-white p-10 rounded-2xl border border-neutral-200 hover:shadow-lg transition-shadow">
@@ -49,9 +49,9 @@ export default function AboutPage() {
                 </div>
                 <h2 className="text-3xl font-bold mb-4 text-neutral-900">Our Vision</h2>
                 <p className="text-lg text-neutral-600 leading-relaxed">
-                  To become the leading AI voice operations platform for service industries, 
-                  enabling businesses to scale efficiently while maintaining exceptional customer 
-                  experiences through intelligent automation.
+                  To establish voice operations as critical infrastructure for service businesses, 
+                  proven in HVAC and expanding horizontally across industries that depend on 
+                  phone-based customer acquisition.
                 </p>
               </div>
             </div>
@@ -117,23 +117,23 @@ export default function AboutPage() {
                 </div>
                 <div className="space-y-6 text-lg text-neutral-600 leading-relaxed">
                   <p>
-                    Kestrel VoiceOps was born from a simple observation: service businesses were losing 
-                    thousands of dollars every month from missed calls and inefficient phone handling.
+                    Kestrel VoiceOps started by solving a critical problem in HVAC: revenue leakage 
+                    from missed calls and inconsistent phone handling during peak seasons.
                   </p>
                   <p>
-                    We saw HVAC companies, plumbers, electricians, and contractors struggling to answer 
-                    every call while managing their field operations. After-hours calls went to voicemail. 
-                    Peak times meant missed opportunities. Manual scheduling was eating up valuable time.
+                    We focused on HVAC as our validated vertical - an industry where phone operations 
+                    directly impact revenue, seasonal peaks create operational chaos, and every missed call 
+                    costs thousands. We built deterministic workflows that force consistent outcomes.
                   </p>
                   <p>
-                    We knew AI could solve this. Not with a clunky IVR system, but with a natural, 
-                    intelligent voice agent that could handle real conversations, book appointments, 
-                    and qualify leads - just like a professional receptionist.
+                    We built platform infrastructure, not point solutions. Autonomous intake, 
+                    outcome-anchored routing, and operational telemetry that scales. HVAC proved 
+                    the model works - now we're expanding to plumbing, electrical, and beyond.
                   </p>
                   <p className="font-semibold text-neutral-900">
-                    Today, we're helping hundreds of service businesses capture every opportunity, 
-                    scale their operations, and deliver exceptional customer experiences - all without 
-                    hiring additional staff.
+                    Today, our platform handles thousands of calls monthly for HVAC businesses, 
+                    with proven metrics: 40% more booked appointments, sub-200ms response times, 
+                    and millions in recovered revenue. This is voice operations infrastructure.
                   </p>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default function AboutPage() {
               <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">Leadership Team</h2>
                 <p className="text-xl text-neutral-600">
-                  Experienced operators building the future of voice AI
+                  Infrastructure engineers building voice operations at scale
                 </p>
               </div>
 
@@ -211,20 +211,20 @@ export default function AboutPage() {
                 Ready to transform your operations?
               </h2>
               <p className="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
-                Join hundreds of service businesses using Kestrel VoiceOps to capture every opportunity.
+                Deploy proven voice operations infrastructure. Validated in HVAC, ready for your industry.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="/calendar"
                   className="inline-flex items-center justify-center px-8 py-4 bg-neutral-900 text-white rounded-lg font-semibold hover:bg-neutral-800 transition-colors"
                 >
-                  Get Started
+                  Book Workflow Demo
                 </a>
                 <a
                   href="/contact"
                   className="inline-flex items-center justify-center px-8 py-4 border-2 border-neutral-300 text-neutral-900 rounded-lg font-semibold hover:bg-neutral-50 transition-colors"
                 >
-                  Contact Sales
+                  Request Validation
                 </a>
               </div>
             </div>
