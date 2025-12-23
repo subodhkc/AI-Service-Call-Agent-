@@ -291,53 +291,55 @@ export default function DashboardPage() {
                 </button>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-3 px-4 font-medium text-gray-600">Customer</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600">Phone</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600">Service</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600">Duration</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600">Outcome</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600">Time</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recentCalls.map((call) => (
-                    <tr key={call.id} className="border-b hover:bg-gray-50 transition-colors">
-                      <td className="py-3 px-4">
-                        <div className="font-medium">{call.customer_name}</div>
-                      </td>
-                      <td className="py-3 px-4 text-gray-600">
-                        {call.from}
-                      </td>
-                      <td className="py-3 px-4">
-                        <span className="text-sm">{call.service_type}</span>
-                      </td>
-                      <td className="py-3 px-4">
-                        <div className="flex items-center text-gray-600">
-                          <Clock className="h-4 w-4 mr-1" />
-                          {formatDuration(call.duration)}
-                        </div>
-                      </td>
-                      <td className="py-3 px-4">
-                        {getOutcomeBadge(call.outcome)}
-                      </td>
-                      <td className="py-3 px-4 text-gray-600 text-sm">
-                        {formatDate(call.created_at)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
-              
-              <div className="mt-4 text-center">
-                <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
-                  View All Calls →
-                </button>
-              </div>
+              <>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Customer</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Phone</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Service</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Duration</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Outcome</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {recentCalls.map((call) => (
+                        <tr key={call.id} className="border-b hover:bg-gray-50 transition-colors">
+                          <td className="py-3 px-4">
+                            <div className="font-medium">{call.customer_name}</div>
+                          </td>
+                          <td className="py-3 px-4 text-gray-600">
+                            {call.from}
+                          </td>
+                          <td className="py-3 px-4">
+                            <span className="text-sm">{call.service_type}</span>
+                          </td>
+                          <td className="py-3 px-4">
+                            <div className="flex items-center text-gray-600">
+                              <Clock className="h-4 w-4 mr-1" />
+                              {formatDuration(call.duration)}
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">
+                            {getOutcomeBadge(call.outcome)}
+                          </td>
+                          <td className="py-3 px-4 text-gray-600 text-sm">
+                            {formatDate(call.created_at)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div className="mt-4 text-center">
+                  <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
+                    View All Calls →
+                  </button>
+                </div>
+              </>
             )}
           </CardContent>
         </Card>
