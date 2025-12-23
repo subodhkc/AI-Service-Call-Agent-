@@ -3,18 +3,20 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { 
   Phone, 
   Calendar, 
   TrendingUp, 
   AlertCircle,
-  CheckCircle,
+  PhoneOff,
   Clock,
   Users,
   DollarSign
 } from "lucide-react";
 
 export default function DashboardPage() {
+  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     total_calls: 342,
     calls_this_month: 87,
@@ -65,6 +67,13 @@ export default function DashboardPage() {
     }
   ]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const usagePercentage = Math.round((stats.calls_this_month / stats.max_monthly_calls) * 100);
 
   const getHealthScoreColor = (score: number) => {
@@ -107,17 +116,55 @@ export default function DashboardPage() {
     return <Badge className={badge.color}>{badge.label}</Badge>;
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-7xl mx-auto p-8">
+          <div className="mb-8">
+            <Skeleton className="h-10 w-64 mb-2" />
+            <Skeleton className="h-5 w-96" />
+          </div>
+          <div className="grid md:grid-cols-4 gap-6 mb-8">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i}>
+                <CardHeader className="pb-2">
+                  <Skeleton className="h-4 w-32" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-9 w-20 mb-2" />
+                  <Skeleton className="h-3 w-24" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <Card className="mb-8">
+            <CardHeader>
+              <Skeleton className="h-6 w-32" />
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <Skeleton key={i} className="h-16 w-full" />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-7xl mx-auto p-4 md:p-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">{stats.company_name}</h1>
-          <p className="text-gray-600">Welcome back! Here's your voice agent performance.</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">{stats.company_name}</h1>
+          <p className="text-sm md:text-base text-gray-600">Welcome back! Here's your voice agent performance.</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
           {/* Calls This Month */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -226,13 +273,25 @@ export default function DashboardPage() {
         {/* Recent Calls Table */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <span>Recent Calls</span>
-              <Badge variant="outline">{recentCalls.length} calls today</Badge>
+            <CardTitle className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <span className="text-lg md:text-xl">Recent Calls</span>
+              <Badge variant="outline" className="w-fit">{recentCalls.length} calls today</Badge>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="overflow-x-auto">
+            {recentCalls.length === 0 ? (
+              <div className="text-center py-12">
+                <PhoneOff className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No calls yet</h3>
+                <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+                  Your AI voice agent is ready to handle incoming calls. Configure your phone number to get started.
+                </p>
+                <button className="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                  Configure Phone Number
+                </button>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b">
@@ -272,19 +331,20 @@ export default function DashboardPage() {
                   ))}
                 </tbody>
               </table>
-            </div>
-            
-            <div className="mt-4 text-center">
-              <button className="text-blue-600 hover:text-blue-700 font-medium text-sm">
-                View All Calls →
-              </button>
-            </div>
+              </div>
+              
+              <div className="mt-4 text-center">
+                <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
+                  View All Calls →
+                </button>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="bg-blue-100 p-3 rounded-lg">
@@ -298,7 +358,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="bg-green-100 p-3 rounded-lg">
@@ -312,7 +372,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105">
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
                 <div className="bg-purple-100 p-3 rounded-lg">
