@@ -14,7 +14,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/ - COMMENTED OUT to allow frontend/lib directory
 lib64/
 parts/
 sdist/
@@ -23,6 +23,11 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Ignore Python lib directories specifically
+**/venv/lib/
+**/.venv/lib/
+hvac_agent/lib/
 
 # ===========================================
 # Virtual Environments
