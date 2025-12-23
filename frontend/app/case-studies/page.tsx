@@ -12,7 +12,7 @@ const caseStudies = [
     industry: "HVAC Services",
     size: "12 technicians",
     challenge: "Missing 30% of after-hours calls, losing $180K annually in emergency service revenue",
-    solution: "Custom AI voice agent with emergency protocol routing and 24/7 availability",
+    solution: "Deterministic workflows with outcome-anchored routing and enterprise-grade availability",
     results: [
       { metric: "Call Answer Rate", before: "70%", after: "99.8%", improvement: "+42%" },
       { metric: "After-Hours Bookings", before: "$15K/mo", after: "$38K/mo", improvement: "+153%" },
@@ -20,7 +20,7 @@ const caseStudies = [
       { metric: "Customer Satisfaction", before: "3.8/5", after: "4.7/5", improvement: "+24%" }
     ],
     testimonial: {
-      quote: "Kestrel transformed our after-hours operations. We went from losing thousands in missed calls to capturing nearly every opportunity. The ROI was immediate.",
+      quote: "Platform infrastructure that works. Deterministic workflows eliminated revenue leakage from missed calls. ROI was immediate and measurable.",
       author: "Michael Chen",
       role: "Owner, Comfort Pro HVAC"
     },
@@ -34,7 +34,7 @@ const caseStudies = [
     industry: "Plumbing Services",
     size: "8 technicians",
     challenge: "Overwhelmed front desk during peak hours, inconsistent follow-up on quotes",
-    solution: "AI call agent with CRM integration and automated follow-up sequences",
+    solution: "Platform integration with workflow orchestration and automated follow-up sequences",
     results: [
       { metric: "Quote Conversion", before: "22%", after: "41%", improvement: "+86%" },
       { metric: "Follow-up Completion", before: "35%", after: "98%", improvement: "+180%" },
@@ -42,7 +42,7 @@ const caseStudies = [
       { metric: "Booking Rate", before: "58%", after: "79%", improvement: "+36%" }
     ],
     testimonial: {
-      quote: "The automated follow-ups alone paid for the entire system. We're closing deals we would have lost to competitors who called back first.",
+      quote: "Workflow orchestration paid for itself. We're capturing opportunities that previously went to competitors with faster response times.",
       author: "Sarah Martinez",
       role: "Operations Manager, Elite Plumbing"
     },
@@ -56,7 +56,7 @@ const caseStudies = [
     industry: "HVAC Services",
     size: "24 technicians, 3 locations",
     challenge: "Inconsistent customer experience across locations, high call center costs",
-    solution: "Multi-location AI deployment with unified brand voice and ServiceTitan integration",
+    solution: "Multi-location platform deployment with deterministic workflows and ServiceTitan integration",
     results: [
       { metric: "Call Center Costs", before: "$12K/mo", after: "$3K/mo", improvement: "-75%" },
       { metric: "Brand Consistency", before: "Variable", after: "100%", improvement: "100%" },
@@ -64,7 +64,7 @@ const caseStudies = [
       { metric: "Customer Retention", before: "68%", after: "84%", improvement: "+24%" }
     ],
     testimonial: {
-      quote: "Every location now delivers the same premium experience. Our customers can't tell they're talking to AI, and our team loves not being interrupted constantly.",
+      quote: "Consistent operational outcomes across all locations. Platform ensures deterministic workflows regardless of call volume or time of day.",
       author: "David Thompson",
       role: "CEO, Premier Climate Control"
     },
@@ -87,8 +87,8 @@ export default function CaseStudiesPage() {
                 Real Results from Real Businesses
               </h1>
               <p className="text-xl md:text-2xl text-slate-300 leading-relaxed">
-                See how service businesses are capturing more opportunities, reducing costs, 
-                and scaling operations with Kestrel AI voice agents.
+                HVAC-validated voice operations platform delivering measurable outcomes: 
+                resolution rate, escalation load, revenue impact.
               </p>
             </div>
           </div>
@@ -221,25 +221,25 @@ export default function CaseStudiesPage() {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Write Your Success Story?</h2>
               <p className="text-xl md:text-2xl text-blue-100 mb-8">
-                Join hundreds of service businesses capturing every opportunity with AI voice operations.
+                Deploy voice operations infrastructure proven in HVAC, ready for your service vertical.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
                   href="/calendar"
                   className="bg-white text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-50 transition-all duration-200 hover:shadow-xl hover:scale-105 inline-flex items-center justify-center gap-2"
                 >
-                  Schedule Your Demo
+                  Book Workflow Demo
                   <ArrowRight className="w-5 h-5" />
                 </a>
                 <a
                   href="/contact"
                   className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white/10 transition-colors inline-flex items-center justify-center gap-2"
                 >
-                  Talk to Sales
+                  Request Validation
                 </a>
               </div>
               <p className="mt-6 text-blue-100 text-sm">
-                48-hour deployment • No long-term contracts • 30-day money-back guarantee
+                48-hour deployment • Workflow validation included • Month-to-month terms
               </p>
             </div>
           </div>

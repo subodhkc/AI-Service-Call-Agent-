@@ -24,7 +24,7 @@ const integrations: Integration[] = [
   {
     id: 'salesforce',
     name: 'Salesforce',
-    description: 'Sync customer data and service records with Salesforce CRM for unified customer management.',
+    description: 'Native platform connector for Salesforce with bidirectional data sync and workflow automation.',
     category: 'CRM',
     logo: '/integrations/salesforce.svg',
     features: ['Two-way sync', 'Real-time updates', 'Custom field mapping', 'Automated workflows'],
@@ -36,7 +36,7 @@ const integrations: Integration[] = [
   {
     id: 'hubspot',
     name: 'HubSpot',
-    description: 'Connect with HubSpot to manage leads, track customer interactions, and automate marketing.',
+    description: 'Platform integration with HubSpot for automated lead routing and operational data pipelines.',
     category: 'CRM',
     logo: '/integrations/hubspot.svg',
     features: ['Contact sync', 'Deal tracking', 'Email integration', 'Marketing automation'],
@@ -188,10 +188,10 @@ export default function IntegrationsPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-              Integrations
+              Platform Integrations
             </h1>
             <p className="text-xl text-brand-100 mb-8">
-              Connect your favorite tools and automate your workflow with powerful integrations
+              Native connectors and RESTful API for seamless data pipelines and workflow automation
             </p>
             <div className="relative max-w-xl mx-auto">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-neutral-400" />
