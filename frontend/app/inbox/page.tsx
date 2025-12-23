@@ -39,7 +39,7 @@ export default function InboxPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-xs text-neutral-500">{msg.time}</span>
-                  <button className="p-1 hover:bg-neutral-200 rounded"><Star className="w-4 h-4 text-neutral-400" /></button>
+                  <button className="p-1 hover:bg-neutral-200 rounded" aria-label="Star message"><Star className="w-4 h-4 text-neutral-400" /></button>
                 </div>
               </div>
             </div>

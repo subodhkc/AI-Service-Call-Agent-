@@ -182,6 +182,7 @@ export default function CallsPage() {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-2 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition-all"
+              aria-label="Filter calls by status"
             >
               <option value="all">All Status</option>
               <option value="booked">Booked</option>
@@ -192,6 +193,7 @@ export default function CallsPage() {
 
             {/* Date Filter */}
             <select
+              aria-label="Filter calls by date range"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
               className="px-4 py-2 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition-all"

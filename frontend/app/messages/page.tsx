@@ -59,7 +59,7 @@ export default function MessagesPage() {
                   placeholder="Type a message..."
                   className="flex-1 px-4 py-2 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-neutral-900"
                 />
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" aria-label="Send message">
                   <Send className="w-4 h-4" />
                 </button>
               </div>
