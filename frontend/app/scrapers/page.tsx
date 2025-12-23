@@ -81,10 +81,10 @@ export default function ScrapersPage() {
                     }`}>
                       {scraper.status}
                     </span>
-                    <button className="p-2 hover:bg-neutral-100 rounded transition-colors">
+                    <button className="p-2 hover:bg-neutral-100 rounded transition-colors" aria-label={scraper.status === 'active' ? 'Pause scraper' : 'Start scraper'}>
                       {scraper.status === 'active' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                     </button>
-                    <button className="p-2 hover:bg-neutral-100 rounded transition-colors">
+                    <button className="p-2 hover:bg-neutral-100 rounded transition-colors" aria-label="Scraper settings">
                       <Settings className="w-4 h-4" />
                     </button>
                   </div>
