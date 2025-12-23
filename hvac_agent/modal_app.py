@@ -48,14 +48,12 @@ app = modal.App("hvac-voice-agent", image=image)
 
 @app.function(
     secrets=[
-        modal.Secret.from_name("hvac-agent-secrets"),
-        modal.Secret.from_name("elevenlabs", required_keys=[]),  # Optional ElevenLabs secret
-        modal.Secret.from_name("resend", required_keys=[]),  # Resend API for lead emails
+        modal.Secret.from_name("shared-secrets"),  # Single shared secret for all services
     ],
     scaledown_window=300,
     # REMOVED min_containers=1 to save ~$72/month
-    # Cold start is now handled by TwiML \"please hold\" message before Stream connects
-    # Container scales to zero when idle, caller hears \"Thank you for calling, please hold...\"
+    # Cold start is now handled by TwiML "please hold" message before Stream connects
+    # Container scales to zero when idle, caller hears "Thank you for calling, please hold..."
 )
 @modal.concurrent(max_inputs=100)
 @modal.asgi_app()
@@ -63,15 +61,14 @@ def fastapi_app():
     """
     ASGI app entry point for Modal.
     
-    Secrets should be configured in Modal dashboard with:
+    All secrets are shared via 'shared-secrets' in Modal dashboard:
     - OPENAI_API_KEY
-    - DATABASE_URL (optional, defaults to SQLite)
-    - HVAC_COMPANY_NAME (optional)
-    - ELEVENLABS_API_KEY (optional, for natural voice)
-    - ELEVENLABS_VOICE_ID (optional)
-    - USE_ELEVENLABS (optional, set to "true" to enable)
-    - RESEND_API_KEY (for lead email notifications)
-    - LEAD_NOTIFICATION_EMAIL (defaults to subodh.kc@haiec.com)
+    - TWILIO_ACCOUNT_SID
+    - TWILIO_AUTH_TOKEN
+    - DATABASE_URL
+    - STRIPE_SECRET_KEY
+    - STRIPE_WEBHOOK_SECRET
+    - STRIPE_PUBLISHABLE_KEY
     """
     from app.main import app
     return app

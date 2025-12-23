@@ -46,77 +46,43 @@ export interface Tenant {
 class MockTenantAPI {
   /**
    * Get tenant dashboard statistics
+   * NOTE: Returns empty/zero data - connect to real backend API
    */
   async getStats(): Promise<TenantStats> {
     await this.delay(300);
     return {
-      total_calls: 342,
-      calls_this_month: 87,
+      total_calls: 0,
+      calls_this_month: 0,
       max_monthly_calls: 1500,
-      upcoming_appointments: 12,
-      total_appointments: 156,
-      health_score: 85,
-      plan_tier: "professional",
-      company_name: "Acme HVAC Services"
+      upcoming_appointments: 0,
+      total_appointments: 0,
+      health_score: 0,
+      plan_tier: "trial",
+      company_name: "Your Company"
     };
   }
 
   /**
    * Get recent call history
+   * NOTE: Returns empty array - connect to real backend API
    */
   async getCallHistory(limit: number = 10): Promise<CallLog[]> {
     await this.delay(400);
-    return [
-      {
-        id: "1",
-        from: "+1-555-123-4567",
-        customer_name: "John Smith",
-        duration: 245,
-        outcome: "appointment_scheduled",
-        created_at: "2025-12-21T10:30:00Z",
-        service_type: "AC Repair"
-      },
-      {
-        id: "2",
-        from: "+1-555-987-6543",
-        customer_name: "Sarah Johnson",
-        duration: 180,
-        outcome: "transferred",
-        created_at: "2025-12-21T09:15:00Z",
-        service_type: "Emergency - No Heat"
-      },
-      {
-        id: "3",
-        from: "+1-555-456-7890",
-        customer_name: "Mike Davis",
-        duration: 320,
-        outcome: "appointment_scheduled",
-        created_at: "2025-12-20T14:45:00Z",
-        service_type: "Maintenance"
-      },
-      {
-        id: "4",
-        from: "+1-555-321-0987",
-        customer_name: "Emily Brown",
-        duration: 95,
-        outcome: "voicemail",
-        created_at: "2025-12-20T11:20:00Z",
-        service_type: "Quote Request"
-      }
-    ].slice(0, limit);
+    return [];
   }
 
   /**
-   * Get health score breakdown (SECRET TIP #3)
+   * Get health score breakdown
+   * NOTE: Returns zero metrics - connect to real backend API
    */
   async getHealthMetrics(): Promise<HealthMetrics> {
     await this.delay(200);
     return {
-      overall_score: 85,
-      usage_score: 90,
-      engagement_score: 85,
-      payment_score: 100,
-      support_score: 75
+      overall_score: 0,
+      usage_score: 0,
+      engagement_score: 0,
+      payment_score: 0,
+      support_score: 0
     };
   }
 

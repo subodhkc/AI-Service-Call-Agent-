@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, ChevronDown, Menu, X } from 'lucide-react';
 import { logout, isAuthenticated } from '@/lib/auth';
 
@@ -47,9 +48,14 @@ export default function Navigation() {
       <div className="container mx-auto px-6 py-3">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 z-50 group">
-            <div className="text-xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">
-              Kestrel AI
-            </div>
+            <Image 
+              src="/website-logo.png" 
+              alt="Kestrel" 
+              width={180} 
+              height={45}
+              className="h-9 w-auto group-hover:opacity-80 transition-opacity"
+              priority
+            />
           </Link>
           {/* Mobile Menu Button */}
           <button
@@ -72,6 +78,12 @@ export default function Navigation() {
             <Link href="/#pricing" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
               Pricing
             </Link>
+            <a href="/customer-demo.html" target="_blank" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+              Customer Demo
+            </a>
+            <a href="/partner-demo.html" target="_blank" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
+              Partner Demo
+            </a>
             <Link href="/docs" className="text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
               Docs
             </Link>

@@ -24,6 +24,8 @@ from crm.scrapers_api import router as scrapers_router
 from routers.admin_tenants import router as tenants_router
 from routers.ai_guru import router as ai_guru_router
 from routers.twilio_provisioning import router as twilio_router
+from routers.twilio_insights import router as twilio_insights_router
+from routers.scraping_api import router as scraping_router
 from routers.daily_video import router as video_router
 from routers.ai_demo_meetings import router as ai_demo_router
 from routers.click_to_call import router as click_to_call_router
@@ -83,6 +85,8 @@ app.include_router(scrapers_router)
 app.include_router(tenants_router)
 app.include_router(ai_guru_router)
 app.include_router(twilio_router)
+app.include_router(twilio_insights_router)
+app.include_router(scraping_router)
 app.include_router(video_router)
 app.include_router(ai_demo_router)
 app.include_router(click_to_call_router)

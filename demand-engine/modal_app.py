@@ -42,7 +42,7 @@ app = modal.App("kestrel-demand-engine", image=image)
 
 @app.function(
     secrets=[
-        modal.Secret.from_name("demand-engine-secrets"),  # Main secrets
+        modal.Secret.from_name("hvac-agent-secrets"),  # Reuse existing HVAC agent secrets
     ],
     scaledown_window=300,
     timeout=300,
@@ -53,22 +53,20 @@ def fastapi_app():
     """
     ASGI app entry point for Modal.
     
-    Secrets should be configured in Modal dashboard under 'demand-engine-secrets':
-    - SUPABASE_URL
-    - SUPABASE_KEY
-    - SUPABASE_SERVICE_KEY
+    All secrets are shared via 'shared-secrets' in Modal dashboard:
+    - DATABASE_URL (Supabase connection string)
     - OPENAI_API_KEY
     - TWILIO_ACCOUNT_SID
     - TWILIO_AUTH_TOKEN
-    - TWILIO_PHONE_NUMBER
-    - DAILY_API_KEY
-    - RESEND_API_KEY
-    - JWT_SECRET
     - STRIPE_SECRET_KEY
-    - STRIPE_WEBHOOK_SECRET (no leading space!)
+    - STRIPE_WEBHOOK_SECRET
+    - STRIPE_PUBLISHABLE_KEY
     """
-    from app import app
-    return app
+    import sys
+    sys.path.insert(0, '/root')
+    
+    from app import app as fastapi_application
+    return fastapi_application
 
 
 # Local development entry point

@@ -46,7 +46,7 @@ export default function Hero() {
                 href="#demo"
                 className="inline-flex items-center justify-center gap-2 bg-white hover:bg-neutral-50 text-neutral-900 border-2 border-neutral-200 hover:border-neutral-300 px-8 py-4 rounded-lg text-lg font-semibold transition-all"
               >
-                See Platform in 48 Hours
+                See Platform Demo
               </a>
             </div>
             
@@ -62,7 +62,7 @@ export default function Hero() {
               </div>
               <div className="flex items-center gap-2">
                 <Check className="text-green-600 w-5 h-5" />
-                <span className="font-medium">Setup in 24 hours</span>
+                <span className="font-medium">Live in 48 hours</span>
               </div>
             </div>
           </div>
