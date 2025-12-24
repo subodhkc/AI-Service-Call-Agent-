@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { Activity, TrendingUp, Database, RefreshCw, Trash2, Phone, Video, Mail } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
+// Force dynamic rendering to avoid build-time Supabase client creation
+export const dynamic = 'force-dynamic';
+
 interface Signal {
   id: number;
   title: string;
