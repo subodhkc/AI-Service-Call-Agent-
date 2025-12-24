@@ -35,7 +35,6 @@ export default function ScrapingDashboardSupabase() {
   const [signals, setSignals] = useState<Signal[]>([]);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
   useEffect(() => {
     fetchAllData();
@@ -44,6 +43,7 @@ export default function ScrapingDashboardSupabase() {
   const fetchAllData = async () => {
     setLoading(true);
     try {
+      const supabase = createClient();
       // Fetch signals from Supabase
       const { data: signalsData, error: signalsError } = await supabase
         .from('signals')
@@ -89,6 +89,7 @@ export default function ScrapingDashboardSupabase() {
     if (!confirm('Delete this signal?')) return;
 
     try {
+      const supabase = createClient();
       const { error } = await supabase
         .from('signals')
         .delete()

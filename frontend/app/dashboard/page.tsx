@@ -15,7 +15,6 @@ export const dynamic = 'force-dynamic';
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [scrapedLeads, setScrapedLeads] = useState<any[]>([]);
-  const supabase = createClient();
 
   // Call statistics data for charts
   const callVolumeData = [
@@ -77,6 +76,7 @@ export default function DashboardPage() {
 
   const fetchScrapedLeads = async () => {
     try {
+      const supabase = createClient();
       const { data, error } = await supabase
         .from('signals')
         .select('*')

@@ -11,7 +11,6 @@ export const dynamic = 'force-dynamic';
 
 export default function LoginPageWithSupabase() {
   const router = useRouter();
-  const supabase = createClient();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,6 +24,7 @@ export default function LoginPageWithSupabase() {
     setError('');
 
     try {
+      const supabase = createClient();
       if (mode === 'signup') {
         const { data, error } = await supabase.auth.signUp({
           email,
@@ -66,6 +66,7 @@ export default function LoginPageWithSupabase() {
 
   const handleOAuthLogin = async (provider: 'google' | 'github') => {
     try {
+      const supabase = createClient();
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
