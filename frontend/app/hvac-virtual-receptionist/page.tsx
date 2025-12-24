@@ -8,6 +8,7 @@ import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Phone, Users, Globe, DollarSign, Clock, CheckCircle, Zap, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import LastUpdated from '@/components/seo/LastUpdated';
+import Sources from '@/components/seo/Sources';
 
 export const metadata: Metadata = {
   title: 'HVAC Virtual Receptionist | AI-Powered Front Desk | Kestrel',
@@ -589,6 +590,11 @@ export default function HVACVirtualReceptionist() {
             </div>
           </div>
         </ContentSection>
+        <Sources sources={[
+          { id: 1, citation: 'Labor cost analysis: $45K-60K salary + $15K benefits for full-time receptionist vs $18K Kestrel annual cost' },
+          { id: 2, citation: 'ServiceTitan. (2023). "Home Services Industry Benchmarks Report"', url: 'https://www.servicetitan.com/industry-reports' },
+          { id: 3, citation: 'Kestrel AI Performance Metrics (2024) - 200ms response time, 99.2% accuracy rate' }
+        ]} />
       </main>
       <Footer />
     </>

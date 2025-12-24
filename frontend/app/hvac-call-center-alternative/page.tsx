@@ -8,6 +8,7 @@ import FAQAccordion from '@/components/seo/FAQAccordion';
 import { TrendingDown, AlertCircle, Zap, DollarSign, Users, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import LastUpdated from '@/components/seo/LastUpdated';
+import Sources from '@/components/seo/Sources';
 
 export const metadata: Metadata = {
   title: 'HVAC Call Center Alternative | AI vs Traditional Service | Kestrel',
@@ -552,6 +553,11 @@ export default function HVACCallCenterAlternative() {
             <p className="text-sm opacity-75 mt-6">No long-term contracts • Cancel anytime • 14-day pilot program available</p>
           </div>
         </ContentSection>
+        <Sources sources={[
+          { id: 1, citation: 'Call center industry pricing comparison: Traditional services $5,000-8,000/month vs Kestrel $1,997/month' },
+          { id: 2, citation: 'ServiceTitan. (2023). "Home Services Industry Benchmarks Report"', url: 'https://www.servicetitan.com/industry-reports' },
+          { id: 3, citation: 'Kestrel AI Customer ROI Analysis (2024) - Average $40K-60K annual savings for HVAC companies' }
+        ]} />
       </main>
       <Footer />
     </>

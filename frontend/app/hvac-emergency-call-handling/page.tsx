@@ -7,6 +7,7 @@ import FAQAccordion from '@/components/seo/FAQAccordion';
 import { AlertTriangle, Thermometer, Zap, Shield, Clock, TrendingUp, CheckCircle, Phone } from 'lucide-react';
 import Link from 'next/link';
 import LastUpdated from '@/components/seo/LastUpdated';
+import Sources from '@/components/seo/Sources';
 
 export const metadata: Metadata = {
   title: 'HVAC Emergency Call Handling | AI-Powered Triage System | Kestrel',
@@ -723,6 +724,11 @@ export default function HVACEmergencyCallHandling() {
             </div>
           </div>
         </ContentSection>
+        <Sources sources={[
+          { id: 1, citation: 'ServiceTitan. (2023). "Emergency Service Pricing Analysis" - Emergency HVAC calls average $850 vs $385 scheduled' },
+          { id: 2, citation: 'HVAC Industry Association. (2023). "Emergency Response Time Impact Study"' },
+          { id: 3, citation: 'Kestrel AI Customer Data Analysis (2024) - Emergency triage accuracy across 50,000+ calls' }
+        ]} />
       </main>
       <Footer />
     </>

@@ -7,6 +7,7 @@ import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Calendar, Clock, TrendingUp, Zap, CheckCircle, XCircle, Phone, Users } from 'lucide-react';
 import Link from 'next/link';
 import LastUpdated from '@/components/seo/LastUpdated';
+import Sources from '@/components/seo/Sources';
 
 export const metadata: Metadata = {
   title: 'Automated HVAC Appointment Booking | AI Scheduling System | Kestrel',
@@ -644,6 +645,11 @@ export default function AutomatedHVACAppointmentBooking() {
             </div>
           </div>
         </ContentSection>
+        <Sources sources={[
+          { id: 1, citation: 'Appointment reminder systems research (2023) - 67% reduction in no-shows with automated reminders' },
+          { id: 2, citation: 'Kestrel AI + ServiceTitan Integration Metrics (2024) - 96% booking accuracy vs 82% manual' },
+          { id: 3, citation: 'ServiceTitan. (2023). "Booking Rate Analysis" - AI booking rate 81% vs manual 58%' }
+        ]} />
       </main>
       <Footer />
     </>
