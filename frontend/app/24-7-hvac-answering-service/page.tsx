@@ -25,6 +25,38 @@ export const metadata: Metadata = {
     title: '24/7 HVAC Answering Service | Never Miss Emergency Calls',
     description: 'Round-the-clock AI answering service for HVAC. Handle emergencies 24/7/365.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How does 24/7 AI answering service work for HVAC companies?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Kestrel AI answers your business phone 24 hours a day, 7 days a week, including holidays. When a customer calls at 2 AM with no heat, the AI immediately answers, assesses the emergency, and either books an appointment or routes to your on-call technician based on your protocols. No human intervention required.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'What happens to after-hours calls without 24/7 coverage?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': '87% of after-hours calls go to voicemail and are never returned. With an average emergency call value of $850, HVAC companies lose $50,000-$200,000 annually from missed after-hours opportunities. Kestrel AI captures 100% of these calls.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How much does 24/7 coverage cost compared to hiring staff?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Hiring 24/7 staff costs $60,000-$90,000 per year plus benefits and overtime. Kestrel AI provides complete 24/7 coverage for $17,964-$29,964 annually with zero overtime, sick days, or training costs. Most clients see ROI within 60 days.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function TwentyFourSevenHVACAnsweringService() {
