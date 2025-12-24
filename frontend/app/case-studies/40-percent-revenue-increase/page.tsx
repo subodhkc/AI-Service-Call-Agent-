@@ -1,11 +1,28 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
 import ContentSection from '@/components/seo/ContentSection';
 import { TrendingUp, DollarSign, CheckCircle, Clock, Phone, Users } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: '40% Revenue Increase: Dallas Plumbing Success | Case Study | Kestrel',
+  description: 'Elite Plumbing Solutions increased revenue by $156K annually with Kestrel AI. Improved booking rate from 58% to 81%, eliminated missed calls.',
+  keywords: 'plumbing revenue increase, hvac case study, booking rate improvement, missed call elimination',
+  openGraph: {
+    title: '40% Revenue Increase: Dallas Plumbing Success | Case Study',
+    description: 'Elite Plumbing increased revenue by $156K annually. 81% booking rate, zero missed calls.',
+    type: 'article',
+    url: 'https://kestrelai.com/case-studies/40-percent-revenue-increase',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '40% Revenue Increase: Dallas Plumbing Success | Case Study',
+    description: 'Elite Plumbing increased revenue by $156K with AI. 81% booking rate.',
+  },
+};
 
 export default function RevenueIncreaseCaseStudy() {
   const stats = [

@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -8,6 +7,24 @@ import ComparisonTable from '@/components/seo/ComparisonTable';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Phone, Users, Globe, DollarSign, Clock, CheckCircle, Zap, Calendar } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'HVAC Virtual Receptionist | AI-Powered Front Desk | Kestrel',
+  description: 'AI virtual receptionist for HVAC companies. Answer calls, book appointments, handle customer inquiries 24/7. Save $42K/year vs hiring receptionist.',
+  keywords: 'hvac virtual receptionist, ai receptionist, hvac front desk, automated receptionist, hvac call answering',
+  openGraph: {
+    title: 'HVAC Virtual Receptionist | AI-Powered Front Desk',
+    description: 'AI virtual receptionist for HVAC. Answer calls 24/7, book appointments instantly, save $42K/year.',
+    type: 'website',
+    url: 'https://kestrelai.com/hvac-virtual-receptionist',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HVAC Virtual Receptionist | AI-Powered Front Desk',
+    description: 'AI virtual receptionist for HVAC companies. 24/7 availability, instant booking.',
+  },
+};
 
 export default function HVACVirtualReceptionist() {
   const stats = [

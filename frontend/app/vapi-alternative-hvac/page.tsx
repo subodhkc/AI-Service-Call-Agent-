@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -8,6 +7,24 @@ import ComparisonTable from '@/components/seo/ComparisonTable';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Code, Wrench, Zap, Clock, CheckCircle, XCircle, ArrowRight, Shield } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'VAPI Alternative for HVAC | Managed AI Service vs DIY | Kestrel',
+  description: 'Kestrel vs VAPI for HVAC companies. Compare managed service to DIY platform. Pre-built HVAC features, ServiceTitan integration, no coding required.',
+  keywords: 'vapi alternative, hvac ai service, managed vs diy, vapi comparison, turnkey ai solution',
+  openGraph: {
+    title: 'VAPI Alternative for HVAC | Managed AI Service',
+    description: 'Turnkey HVAC AI service vs DIY VAPI. 48-hour setup, no coding, pre-built features.',
+    type: 'website',
+    url: 'https://kestrelai.com/vapi-alternative-hvac',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'VAPI Alternative for HVAC | Managed AI Service vs DIY',
+    description: 'Kestrel vs VAPI for HVAC. Managed service with pre-built features.',
+  },
+};
 
 export default function VAPIAlternativeHVAC() {
   const stats = [

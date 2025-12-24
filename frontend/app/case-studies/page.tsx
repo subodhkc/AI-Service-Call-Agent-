@@ -1,8 +1,25 @@
-"use client";
-
+import { Metadata } from 'next';
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { TrendingUp, Phone, Clock, DollarSign, CheckCircle, ArrowRight } from "lucide-react";
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'HVAC AI Success Stories | Customer Case Studies | Kestrel',
+  description: 'Real results from HVAC companies using Kestrel AI. See revenue increases, cost savings, and operational improvements with detailed case studies.',
+  keywords: 'hvac case studies, ai success stories, hvac automation results, customer testimonials',
+  openGraph: {
+    title: 'HVAC AI Success Stories | Customer Case Studies',
+    description: 'Real results from HVAC companies. Revenue increases, cost savings, operational improvements.',
+    type: 'website',
+    url: 'https://kestrelai.com/case-studies',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HVAC AI Success Stories | Customer Case Studies',
+    description: 'Real results from HVAC companies using Kestrel AI.',
+  },
+};
 
 const caseStudies = [
   {

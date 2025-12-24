@@ -1,11 +1,28 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
 import ContentSection from '@/components/seo/ContentSection';
 import { TrendingUp, Phone, Clock, DollarSign, CheckCircle, AlertCircle, Zap } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'Winter Storm Emergency: 847 Calls in 72 Hours | Case Study | Kestrel',
+  description: 'How Phoenix HVAC handled 847 emergency calls during historic winter storm using Kestrel AI. Zero missed calls, $127K revenue captured.',
+  keywords: 'hvac emergency case study, winter storm calls, emergency call handling, hvac crisis management',
+  openGraph: {
+    title: 'Winter Storm Emergency: 847 Calls in 72 Hours | Case Study',
+    description: 'Phoenix HVAC handled 847 emergency calls during historic winter storm. Zero missed calls.',
+    type: 'article',
+    url: 'https://kestrelai.com/case-studies/winter-storm-emergency',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Winter Storm Emergency: 847 Calls in 72 Hours | Case Study',
+    description: 'How Phoenix HVAC handled 847 emergency calls with AI. $127K revenue captured.',
+  },
+};
 
 export default function WinterStormCaseStudy() {
   const stats = [

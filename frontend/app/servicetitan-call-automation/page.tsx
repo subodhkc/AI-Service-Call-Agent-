@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -7,6 +6,24 @@ import ContentSection from '@/components/seo/ContentSection';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Zap, CheckCircle, Database, Calendar, Phone, Users, Clock, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'ServiceTitan Call Automation | Native AI Integration | Kestrel',
+  description: 'Native ServiceTitan integration for call automation. AI answers calls, books appointments, logs interactions automatically. Zero manual data entry.',
+  keywords: 'servicetitan integration, servicetitan automation, hvac crm integration, call automation servicetitan',
+  openGraph: {
+    title: 'ServiceTitan Call Automation | Native AI Integration',
+    description: 'Native ServiceTitan integration. AI books appointments, logs calls, syncs data automatically.',
+    type: 'website',
+    url: 'https://kestrelai.com/servicetitan-call-automation',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ServiceTitan Call Automation | Native AI Integration',
+    description: 'Native ServiceTitan integration for call automation. Zero manual data entry.',
+  },
+};
 
 export default function ServiceTitanCallAutomation() {
   const stats = [

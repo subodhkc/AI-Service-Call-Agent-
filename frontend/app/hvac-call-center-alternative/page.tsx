@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -8,6 +7,24 @@ import ComparisonTable from '@/components/seo/ComparisonTable';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { TrendingDown, AlertCircle, Zap, DollarSign, Users, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'HVAC Call Center Alternative | AI vs Traditional Service | Kestrel',
+  description: 'Modern alternative to traditional HVAC call centers. AI-powered answering service with 200ms response time. Save 60% on costs, improve customer satisfaction.',
+  keywords: 'hvac call center alternative, ai call center, hvac answering service, call center replacement',
+  openGraph: {
+    title: 'HVAC Call Center Alternative | AI vs Traditional',
+    description: 'Replace traditional call centers with AI. 75% cost reduction, 200ms response time.',
+    type: 'website',
+    url: 'https://kestrelai.com/hvac-call-center-alternative',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HVAC Call Center Alternative | AI-Powered Service',
+    description: 'Modern alternative to traditional HVAC call centers. Save 60% on costs.',
+  },
+};
 
 export default function HVACCallCenterAlternative() {
   const stats = [

@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -7,6 +6,24 @@ import ContentSection from '@/components/seo/ContentSection';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Calendar, Clock, TrendingUp, Zap, CheckCircle, XCircle, Phone, Users } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'Automated HVAC Appointment Booking | AI Scheduling System | Kestrel',
+  description: 'Automated appointment booking for HVAC companies. AI books directly into ServiceTitan/Jobber calendars. Reduce no-shows by 40%, increase booking rate to 81%.',
+  keywords: 'hvac appointment booking, automated scheduling, servicetitan booking, hvac calendar integration',
+  openGraph: {
+    title: 'Automated HVAC Appointment Booking | AI Scheduling',
+    description: 'AI books appointments directly into ServiceTitan/Jobber. 81% booking rate, 67% fewer no-shows.',
+    type: 'website',
+    url: 'https://kestrelai.com/automated-hvac-appointment-booking',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Automated HVAC Appointment Booking | AI Scheduling System',
+    description: 'Automated appointment booking for HVAC. 81% booking rate, instant scheduling.',
+  },
+};
 
 export default function AutomatedHVACAppointmentBooking() {
   const stats = [

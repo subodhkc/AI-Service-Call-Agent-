@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -7,6 +6,24 @@ import ContentSection from '@/components/seo/ContentSection';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { PhoneOff, TrendingDown, DollarSign, AlertCircle, CheckCircle, Phone, Zap, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'HVAC Missed Call Management | Recover Lost Revenue | Kestrel',
+  description: 'Stop losing revenue to missed calls. AI answering service captures 100% of HVAC calls. Average company recovers $47K/year in lost opportunities.',
+  keywords: 'hvac missed calls, missed call recovery, hvac call management, lost revenue recovery',
+  openGraph: {
+    title: 'HVAC Missed Call Management | Recover Lost Revenue',
+    description: 'Stop losing $47K/year to missed calls. AI captures 100% of HVAC calls instantly.',
+    type: 'website',
+    url: 'https://kestrelai.com/hvac-missed-call-management',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'HVAC Missed Call Management | Recover Lost Revenue',
+    description: 'Stop losing revenue to missed calls. 100% answer rate guarantee with AI.',
+  },
+};
 
 export default function HVACMissedCallManagement() {
   const stats = [

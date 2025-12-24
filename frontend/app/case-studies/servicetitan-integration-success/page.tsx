@@ -1,11 +1,28 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
 import ContentSection from '@/components/seo/ContentSection';
 import { Database, CheckCircle, Clock, TrendingUp, Zap, Users } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'ServiceTitan Integration: $324K Annual Impact | Case Study | Kestrel',
+  description: 'Premier Climate Control saved $324K annually with native ServiceTitan integration. Eliminated call center costs, improved efficiency across 3 locations.',
+  keywords: 'servicetitan integration case study, hvac crm integration, call center elimination, hvac efficiency',
+  openGraph: {
+    title: 'ServiceTitan Integration: $324K Annual Impact | Case Study',
+    description: 'Premier Climate Control saved $324K annually with ServiceTitan integration.',
+    type: 'article',
+    url: 'https://kestrelai.com/case-studies/servicetitan-integration-success',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ServiceTitan Integration: $324K Annual Impact | Case Study',
+    description: 'Premier Climate Control saved $324K with native ServiceTitan integration.',
+  },
+};
 
 export default function ServiceTitanIntegrationCaseStudy() {
   const stats = [

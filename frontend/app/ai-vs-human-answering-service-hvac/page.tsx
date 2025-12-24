@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -8,6 +7,24 @@ import ComparisonTable from '@/components/seo/ComparisonTable';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Users, Zap, DollarSign, TrendingUp, Clock, CheckCircle, XCircle, Brain } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'AI vs Human Answering Service for HVAC | Complete Comparison | Kestrel',
+  description: 'Detailed comparison of AI vs human answering services for HVAC. Cost analysis, performance metrics, and when to use each solution.',
+  keywords: 'ai vs human answering service, hvac answering comparison, ai receptionist vs human, cost comparison',
+  openGraph: {
+    title: 'AI vs Human Answering Service for HVAC | Complete Comparison',
+    description: 'Compare AI and human answering services for HVAC. Cost, performance, and use case analysis.',
+    type: 'website',
+    url: 'https://kestrelai.com/ai-vs-human-answering-service-hvac',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI vs Human Answering Service for HVAC | Complete Comparison',
+    description: 'Detailed comparison of AI vs human answering services. Cost and performance analysis.',
+  },
+};
 
 export default function AIvsHumanAnsweringServiceHVAC() {
   const stats = [

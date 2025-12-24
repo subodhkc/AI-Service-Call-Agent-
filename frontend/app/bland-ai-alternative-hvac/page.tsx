@@ -1,5 +1,4 @@
-'use client';
-
+import { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import PageHero from '@/components/seo/PageHero';
@@ -8,6 +7,24 @@ import ComparisonTable from '@/components/seo/ComparisonTable';
 import FAQAccordion from '@/components/seo/FAQAccordion';
 import { Wrench, Zap, CheckCircle, XCircle, ArrowRight, Settings } from 'lucide-react';
 import Link from 'next/link';
+import LastUpdated from '@/components/seo/LastUpdated';
+
+export const metadata: Metadata = {
+  title: 'Bland AI Alternative for HVAC | Turnkey Solution | Kestrel',
+  description: 'Kestrel vs Bland AI for HVAC businesses. Turnkey solution with HVAC-specific features, ServiceTitan integration, and dedicated support.',
+  keywords: 'bland ai alternative, hvac ai solution, turnkey ai service, bland comparison',
+  openGraph: {
+    title: 'Bland AI Alternative for HVAC | Turnkey Solution',
+    description: 'Turnkey HVAC AI solution vs Bland AI. Pre-built features, 48-hour setup, dedicated support.',
+    type: 'website',
+    url: 'https://kestrelai.com/bland-ai-alternative-hvac',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bland AI Alternative for HVAC | Turnkey Solution',
+    description: 'Kestrel vs Bland AI for HVAC. Turnkey solution with HVAC-specific features.',
+  },
+};
 
 export default function BlandAIAlternativeHVAC() {
   const stats = [
