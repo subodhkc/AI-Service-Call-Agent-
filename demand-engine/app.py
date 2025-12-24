@@ -32,6 +32,9 @@ from routers.click_to_call import router as click_to_call_router
 from routers.integrations import router as integrations_router
 from routers.call_workflow import router as call_workflow_router
 from routers.error_logging import router as error_logging_router
+from admin.outbound_calls_api import router as outbound_calls_router
+from admin.call_intelligence_api import router as call_intelligence_router
+from admin.scraped_leads_api import router as scraped_leads_router
 
 # Configure logging
 logging.basicConfig(
@@ -93,6 +96,9 @@ app.include_router(click_to_call_router)
 app.include_router(integrations_router)
 app.include_router(call_workflow_router)
 app.include_router(error_logging_router)
+app.include_router(outbound_calls_router)
+app.include_router(call_intelligence_router)
+app.include_router(scraped_leads_router)
 
 @app.get("/")
 async def root():

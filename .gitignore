@@ -110,6 +110,19 @@ temp/
 *.bak
 
 # ===========================================
+# AI Demo Call - Videos and Generated Content
+# ===========================================
+ai-demo-call/temp/
+ai-demo-call/obs-assets/
+*.mp3
+*.mp4
+*.wav
+*.avi
+*.mov
+*.webm
+transcript.txt
+
+# ===========================================
 # Local reference files
 # ===========================================
 new 1.md

@@ -29,12 +29,18 @@ jobs:
         run: |
           modal token set --token-id ${{ secrets.MODAL_TOKEN_ID }} --token-secret ${{ secrets.MODAL_TOKEN_SECRET }}
 
-      - name: Deploy to Modal
+      - name: Deploy HVAC Agent to Modal
         working-directory: ./hvac_agent
         run: |
           modal deploy modal_app.py
 
+      - name: Deploy Demand Engine Scrapers to Modal
+        working-directory: ./demand-engine
+        run: |
+          modal deploy modal_scrapers.py
+
       - name: Verify deployment
         run: |
           echo "Deployment complete!"
-          echo "App URL: https://haiec--hvac-voice-agent-fastapi-app.modal.run"
+          echo "Both HVAC Agent and Demand Engine deployed to Modal"
+          echo "Both services use hvac-agent-secrets from Modal"

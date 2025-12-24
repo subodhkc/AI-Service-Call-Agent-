@@ -48,7 +48,7 @@ app = modal.App("hvac-voice-agent", image=image)
 
 @app.function(
     secrets=[
-        modal.Secret.from_name("shared-secrets"),  # Single shared secret for all services
+        modal.Secret.from_name("hvac-agent-secrets"),  # Shared secret for all services
     ],
     scaledown_window=300,
     # REMOVED min_containers=1 to save ~$72/month
@@ -61,14 +61,19 @@ def fastapi_app():
     """
     ASGI app entry point for Modal.
     
-    All secrets are shared via 'shared-secrets' in Modal dashboard:
+    All secrets are shared via 'hvac-agent-secrets' in Modal dashboard:
     - OPENAI_API_KEY
     - TWILIO_ACCOUNT_SID
     - TWILIO_AUTH_TOKEN
     - DATABASE_URL
+    - SUPABASE_URL
+    - SUPABASE_KEY
     - STRIPE_SECRET_KEY
     - STRIPE_WEBHOOK_SECRET
     - STRIPE_PUBLISHABLE_KEY
+    - REDDIT_CLIENT_ID
+    - REDDIT_CLIENT_SECRET
+    - REDDIT_USER_AGENT
     """
     from app.main import app
     return app

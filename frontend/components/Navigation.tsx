@@ -125,17 +125,68 @@ export default function Navigation() {
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/70 backdrop-blur-md z-40 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
       {/* Mobile Menu */}
-      <div className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-40 transform transition-transform duration-300 ease-in-out md:hidden ${
+      <div className={`fixed top-0 right-0 h-full w-80 bg-white/95 backdrop-blur-xl shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
         mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="flex flex-col h-full pt-20 px-6 pb-6 overflow-y-auto">
           
+          {/* Main Navigation */}
+          <div className="mb-6">
+            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Navigation</h3>
+            <div className="space-y-1">
+              <Link 
+                href="/#features" 
+                className="block px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-900 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Features
+              </Link>
+              <Link 
+                href="/#pricing" 
+                className="block px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-900 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Pricing
+              </Link>
+              <Link 
+                href="/demo" 
+                className="block px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-900 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                AI Demo
+              </Link>
+              <Link 
+                href="/docs" 
+                className="block px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-900 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Docs
+              </Link>
+              <a 
+                href="/customer-demo.html" 
+                target="_blank"
+                className="block px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-900 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Customer Demo
+              </a>
+              <a 
+                href="/partner-demo.html" 
+                target="_blank"
+                className="block px-4 py-3 rounded-lg hover:bg-blue-50 transition-colors text-gray-900 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Partner Demo
+              </a>
+            </div>
+          </div>
+
           {/* Products Section */}
           <div className="mb-6">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Products</h3>

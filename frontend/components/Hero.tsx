@@ -43,10 +43,11 @@ export default function Hero() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a 
-                href="#demo"
-                className="inline-flex items-center justify-center gap-2 bg-white hover:bg-neutral-50 text-neutral-900 border-2 border-neutral-200 hover:border-neutral-300 px-8 py-4 rounded-lg text-lg font-semibold transition-all"
+                href="/demo"
+                className="group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all shadow-lg hover:shadow-xl hover:scale-105"
               >
-                See Platform Demo
+                Watch AI Demo
+                <Sparkles className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               </a>
             </div>
             
