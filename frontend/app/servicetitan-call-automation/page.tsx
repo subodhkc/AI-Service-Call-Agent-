@@ -24,6 +24,38 @@ export const metadata: Metadata = {
     title: 'ServiceTitan Call Automation | Native AI Integration',
     description: 'Native ServiceTitan integration for call automation. Zero manual data entry.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How does Kestrel integrate with ServiceTitan?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Kestrel has native ServiceTitan integration that syncs in real-time. When a call comes in, Kestrel automatically looks up the customer by phone number, retrieves their service history, checks calendar availability, books appointments in open slots, and logs all call details with recordings and transcripts—all while the customer is on the phone.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How long does ServiceTitan integration take to set up?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Most ServiceTitan integrations are complete in 30 minutes. We connect to your ServiceTitan account via OAuth, configure your business types and job types, map your technician schedules, and run test calls to verify everything works. You can be live the same day.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Does the AI book appointments directly into ServiceTitan?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. Kestrel reads your real-time ServiceTitan calendar, offers available time slots to customers, books appointments directly into open slots, assigns to appropriate technicians based on skills and location, and sends confirmation texts—all automatically while the customer is on the phone. Zero manual data entry required.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function ServiceTitanCallAutomation() {

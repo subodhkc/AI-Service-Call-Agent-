@@ -25,6 +25,38 @@ export const metadata: Metadata = {
     title: 'Bland AI Alternative for HVAC | Turnkey Solution',
     description: 'Kestrel vs Bland AI for HVAC. Turnkey solution with HVAC-specific features.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How is Kestrel different from Bland AI for HVAC companies?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Bland AI is a powerful DIY platform that requires technical setup and custom development. Kestrel is a fully managed service with HVAC-specific features pre-built. With Bland, you spend weeks building; with Kestrel, you\'re live in 48 hours with zero technical work. We provide native ServiceTitan integration, HVAC-trained voice models, and 24/7 white-glove support.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Do I need technical skills to use Kestrel vs Bland AI?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Bland AI requires technical expertise in APIs, webhooks, and voice AI configuration. Kestrel requires zero technical skills. We handle all setup, configuration, and ongoing maintenance. You just tell us your business requirements and we make it work.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can I migrate from Bland AI to Kestrel?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. We can migrate your Bland AI setup to Kestrel in 48-72 hours, importing your call flows and improving them with HVAC-specific optimizations. Most companies find Kestrel performs better because we\'ve refined workflows across 200+ HVAC companies.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function BlandAIAlternativeHVAC() {

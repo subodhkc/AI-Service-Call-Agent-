@@ -25,6 +25,38 @@ export const metadata: Metadata = {
     title: 'HVAC Virtual Receptionist | AI-Powered Front Desk',
     description: 'AI virtual receptionist for HVAC companies. 24/7 availability, instant booking.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'What is a virtual receptionist for HVAC companies?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'A virtual receptionist is an AI-powered phone system that answers calls, qualifies leads, books appointments, and routes emergencies—just like a human receptionist, but available 24/7 with no sick days, vacations, or turnover. For HVAC companies, it handles scheduling, emergency triage, customer inquiries, and ServiceTitan integration.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How much does a virtual receptionist cost compared to hiring staff?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Hiring a full-time receptionist costs $35,000-$45,000 per year plus benefits. For 24/7 coverage, you need 3-4 people at $60,000-$90,000 annually. Kestrel AI provides complete 24/7 virtual receptionist service for $17,964-$29,964 per year with zero overtime, benefits, or training costs.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can a virtual receptionist handle complex HVAC questions?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. Kestrel AI is trained on HVAC-specific terminology and common customer questions. It can provide pricing estimates, explain service options, diagnose basic issues, and route complex technical questions to your team. For questions beyond its scope, it seamlessly transfers to a human.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function HVACVirtualReceptionist() {

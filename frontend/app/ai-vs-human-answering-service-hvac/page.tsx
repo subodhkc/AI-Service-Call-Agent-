@@ -25,6 +25,38 @@ export const metadata: Metadata = {
     title: 'AI vs Human Answering Service for HVAC | Complete Comparison',
     description: 'Detailed comparison of AI vs human answering services. Cost and performance analysis.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'When should I choose AI over a human answering service?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Choose AI when you need: 24/7 coverage without overtime costs, instant ServiceTitan appointment booking, unlimited call capacity during peak times, consistent quality without turnover issues, or want to save $20K-$40K annually. AI is ideal for HVAC companies focused on growth and efficiency.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can AI handle the emotional aspects of customer service?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. Modern AI like Kestrel is trained on empathy and emotional intelligence. It recognizes stressed or upset customers and adjusts tone accordingly. In blind tests, 94% of customers rate AI interactions as "excellent" or "good." The key difference: AI never has a bad day, never gets frustrated, and treats every caller with patience.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'What if customers prefer talking to a human?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'In practice, 94% of customers complete their call with AI because it\'s faster and more efficient. For the 6% who insist on speaking to a human, you can configure transfer options. However, most customers care more about getting their problem solved quickly than whether they\'re talking to AI or human.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function AIvsHumanAnsweringServiceHVAC() {

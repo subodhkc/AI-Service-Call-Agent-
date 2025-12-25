@@ -24,6 +24,38 @@ export const metadata: Metadata = {
     title: 'HVAC Emergency Call Handling | AI-Powered Triage',
     description: 'Intelligent emergency call handling for HVAC companies. AI triage and routing.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How does Kestrel AI identify emergency HVAC calls?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Kestrel is trained on HVAC emergency scenarios and asks diagnostic questions to assess severity. It recognizes keywords like "no heat," "gas smell," "electrical burning," and "water leaking," then cross-references with environmental factors (outdoor temperature, time of year) to determine urgency level.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can I customize emergency protocols for different scenarios?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. You define custom rules for each emergency type. For example: "No heat" + outdoor temp below 32°F = immediate dispatch. "AC not cooling" in April = next-day appointment. "Gas smell" = always immediate emergency routing. You control every protocol.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How does emergency routing work with on-call technicians?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'You configure your on-call rotation in Kestrel. When an emergency is identified, the AI can: (1) Transfer the call directly to the on-call tech, (2) Send an SMS with call details and ask for callback, or (3) Both. The technician receives full context before answering.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function HVACEmergencyCallHandling() {

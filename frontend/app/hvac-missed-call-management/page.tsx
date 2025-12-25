@@ -24,6 +24,38 @@ export const metadata: Metadata = {
     title: 'HVAC Missed Call Management | Recover Lost Revenue',
     description: 'Stop losing revenue to missed calls. 100% answer rate guarantee with AI.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How many calls does the average HVAC company miss?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Industry data shows that 23% of calls to HVAC companies go unanswered during business hours. After hours, that number jumps to 87%. For a company receiving 50 calls per week, that\'s 11-12 missed calls weekly, or 572 missed opportunities per year. At an average job value of $385, that\'s $220,220 in lost annual revenue.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How much revenue do missed calls cost HVAC companies?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'The average HVAC company loses $47,000 annually to missed calls. This is calculated from 400 calls/month × 23% missed × $385 average job value × 60% booking rate. Larger companies with higher call volumes can lose $100,000-$200,000 per year from missed opportunities alone.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How does AI eliminate missed calls?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'AI answering services like Kestrel answer 100% of calls in 200ms, 24/7/365. Unlike human staff who can only handle one call at a time, AI handles unlimited simultaneous calls. During peak times or emergencies, every caller gets answered instantly with no busy signals, hold times, or voicemail.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function HVACMissedCallManagement() {

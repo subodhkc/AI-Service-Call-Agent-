@@ -25,6 +25,38 @@ export const metadata: Metadata = {
     title: 'VAPI Alternative for HVAC | Managed AI Service vs DIY',
     description: 'Kestrel vs VAPI for HVAC. Managed service with pre-built features.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'Why are HVAC companies switching from VAPI to Kestrel?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'VAPI is a powerful DIY platform, but it requires 40+ hours of technical setup, ongoing maintenance, and deep knowledge of APIs, webhooks, and prompt engineering. HVAC companies switch to Kestrel because we provide a fully managed solution with HVAC-specific features pre-built, native ServiceTitan integration, and white-glove support—all for a similar or lower total cost.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'What is the difference between VAPI and Kestrel?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'VAPI is a DIY platform requiring technical expertise to build and maintain your AI phone system. Kestrel is a turnkey managed service specifically for HVAC companies with pre-built features, ServiceTitan integration, emergency protocols, and dedicated support. VAPI requires 40+ hours of setup; Kestrel is live in 48 hours with white-glove onboarding.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can I migrate from VAPI to Kestrel?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. We handle the complete migration from VAPI to Kestrel, including importing your call flows, configuring HVAC-specific features, integrating with ServiceTitan, and running parallel testing. Most migrations complete in 48-72 hours with zero downtime. You can run both systems in parallel during the transition.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function VAPIAlternativeHVAC() {

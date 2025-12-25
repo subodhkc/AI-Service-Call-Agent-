@@ -25,6 +25,38 @@ export const metadata: Metadata = {
     title: 'HVAC Call Center Alternative | AI-Powered Service',
     description: 'Modern alternative to traditional HVAC call centers. Save 60% on costs.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'Why are HVAC companies switching from call centers to AI?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Traditional call centers have three major problems: high cost ($5,000-$8,000/month), inconsistent quality (70-85% accuracy due to turnover and training gaps), and slow response times (30-45 seconds). AI answering services like Kestrel cost 75% less, maintain 99.2% accuracy, and respond in 200ms. Plus, AI integrates directly with ServiceTitan for instant appointment booking.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How much can I save by switching from a call center to AI?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Traditional HVAC call centers cost $5,000-$8,000 per month ($60,000-$96,000 annually). Kestrel AI provides the same coverage for $1,497-$2,497 per month ($17,964-$29,964 annually), saving you $42,000-$66,000 per year. Most companies see ROI within 60 days from improved booking rates alone.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Will customers notice the difference between AI and a call center?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes, but in a positive way. Customers notice faster response times (200ms vs 30-45 seconds), more consistent service quality, and instant appointment confirmation. In blind tests, 87% of customers rated AI interactions as "better" or "much better" than traditional call center experiences.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function HVACCallCenterAlternative() {

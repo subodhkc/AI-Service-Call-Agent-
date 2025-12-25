@@ -24,6 +24,38 @@ export const metadata: Metadata = {
     title: 'Automated HVAC Appointment Booking | AI Scheduling System',
     description: 'Automated appointment booking for HVAC. 81% booking rate, instant scheduling.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How does automated HVAC appointment booking work?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'When a customer calls, Kestrel AI identifies their service needs, checks available time slots in your ServiceTitan or Jobber calendar, offers 2-3 options to the customer, and books the appointment instantly—all while they\'re on the phone. The customer receives immediate confirmation via text and email.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Does automated booking integrate with ServiceTitan?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. Kestrel has native ServiceTitan integration. It reads your real-time calendar availability, books appointments directly into available slots, creates customer records, assigns to appropriate technicians, and logs all call details. Setup takes about 30 minutes.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How does automated booking reduce no-shows?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Automated booking reduces no-shows by 67% through instant confirmation texts, automated reminder messages 24 hours before appointments, easy rescheduling via text link, and better time slot selection (AI offers times that match customer preferences). Customers are more committed when they book instantly vs. waiting for callbacks.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function AutomatedHVACAppointmentBooking() {
