@@ -21,8 +21,40 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: '40% Revenue Increase: Dallas Plumbing Success | Case Study',
-    description: 'Elite Plumbing increased revenue by $156K with AI. 81% booking rate.',
+    description: 'Elite Plumbing increased revenue by $156K annually with Kestrel AI.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How did Elite Plumbing achieve a 40% revenue increase?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Elite Plumbing increased revenue by improving their booking rate from 58% to 81% (eliminating missed calls and faster response times), capturing 100% of after-hours calls that previously went to voicemail, and improving quote follow-up from 35% to 98%. These operational improvements resulted in $156K additional annual revenue.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'What was the payback period for Elite Plumbing?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Elite Plumbing recovered their Kestrel AI investment in 3.4 weeks. The improved booking rate and eliminated missed calls generated immediate additional revenue that exceeded the monthly cost within the first month of operation.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Can smaller HVAC companies achieve similar results?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. Elite Plumbing is a mid-sized operation with 8 technicians. Smaller companies often see even faster payback periods because every missed call has a bigger impact on their bottom line. The percentage improvements (booking rate, answer rate) are consistent across company sizes.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function RevenueIncreaseCaseStudy() {

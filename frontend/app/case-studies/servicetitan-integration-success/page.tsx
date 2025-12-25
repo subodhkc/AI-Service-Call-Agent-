@@ -21,8 +21,40 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'ServiceTitan Integration: $324K Annual Impact | Case Study',
-    description: 'Premier Climate Control saved $324K with native ServiceTitan integration.',
+    description: 'Premier Climate Control saved $324K annually with ServiceTitan integration.',
   },
+  other: {
+    'application/ld+json': JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'How did Premier Climate Control save $324K annually?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Premier Climate Control eliminated their $144K annual call center costs by replacing it with Kestrel AI, improved booking accuracy from 82% to 96% generating additional revenue, reduced administrative overhead by 25 hours/week, and achieved consistent customer experience across all 3 locations. Total annual impact: $324K in savings and increased revenue.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How long did the ServiceTitan integration take?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'The ServiceTitan integration was completed in 30 minutes per location. Kestrel connected via OAuth, configured job types and technician schedules, and ran test calls to verify everything worked correctly. All 3 locations were live within 2 hours total.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Does ServiceTitan integration work for multi-location companies?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes. Kestrel integrates with ServiceTitan at the company level and can handle multiple locations seamlessly. Calls are routed to the appropriate location based on service area, and each location maintains its own calendar and technician assignments while providing a consistent customer experience across all locations.'
+          }
+        }
+      ]
+    })
+  }
 };
 
 export default function ServiceTitanIntegrationCaseStudy() {
